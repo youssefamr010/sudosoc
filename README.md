@@ -1,4 +1,4 @@
-# 🛡️ SudoSOC: Adaptive IDS/IPS & Decryption Sniffer Platform
+#  SudoSOC: Adaptive IDS/IPS & Decryption Sniffer Platform
 
 SudoSOC is an enterprise-grade, state-of-the-art **Intrusion Detection & Prevention System (IDS/IPS)** that combines real-time packet capturing, deep SSL/TLS decryption sniffing, machine learning-driven threat classification (XGBoost/RandomForest), and Generative AI-powered log explainability.
 
@@ -20,14 +20,14 @@ The visual command center built with Streamlit, tailored in red and black, showi
 
 ---
 
-## ✨ Core Features
+##  Core Features
 
-*   **⚡ Real-Time Traffic Inspection:** Monitors socket interfaces and local loopback traffic using Scapy to analyze raw packets dynamically.
-*   **🔓 Secure Decryption Sniffer:** Integrates a custom `mitmproxy` instance on port `9090` coupled with browser SSLKEYLOGFILE extraction to decrypt, analyze, and intercept secure traffic.
-*   **🤖 Hybrid ML Classification:** Employs trained Random Forest and XGBoost models to identify anomalous traffic, SQL Injections, DDoS attacks, and MITM attempts.
-*   **🧠 GenAI Explainability (Groq API):** Automatically translates complex JSON threat payloads into natural language, detailing the attack mechanism, MITRE ATT&CK mapping, and mitigation strategies.
-*   **🛡️ Active IPS Feedback Loop:** Implements an automated blocking system that dynamically appends malicious hosts to a firewall table (`data/manual_actions.jsonl`) with manual override triggers.
-*   **📈 Continuous Learning & Drift Monitoring:** Monitors model performance, computes accuracy drift, and allows retraining directly from the live dashboard.
+*   ** Real-Time Traffic Inspection:** Monitors socket interfaces and local loopback traffic using Scapy to analyze raw packets dynamically.
+*   ** Secure Decryption Sniffer:** Integrates a custom `mitmproxy` instance on port `9090` coupled with browser SSLKEYLOGFILE extraction to decrypt, analyze, and intercept secure traffic.
+*   ** Hybrid ML Classification:** Employs trained Random Forest and XGBoost models to identify anomalous traffic, SQL Injections, DDoS attacks, and MITM attempts.
+*   ** GenAI Explainability (Groq API):** Automatically translates complex JSON threat payloads into natural language, detailing the attack mechanism, MITRE ATT&CK mapping, and mitigation strategies.
+*   ** Active IPS Feedback Loop:** Implements an automated blocking system that dynamically appends malicious hosts to a firewall table (`data/manual_actions.jsonl`) with manual override triggers.
+*   ** Continuous Learning & Drift Monitoring:** Monitors model performance, computes accuracy drift, and allows retraining directly from the live dashboard.
 
 ---
 
