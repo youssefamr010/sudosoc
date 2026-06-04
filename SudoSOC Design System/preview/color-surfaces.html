@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{font-family:var(--font-ui);padding:22px 24px;display:flex;flex-direction:column;gap:14px;}
+  .row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .sw{border-radius:var(--r-md);border:var(--bd);overflow:hidden;transition:transform var(--t-fast) var(--ease-out),box-shadow var(--t-fast);}
+  .sw:hover{transform:translateY(-3px);box-shadow:var(--sh-md);}
+  .chip{height:64px;}
+  .meta{padding:8px 10px;background:var(--panel);}
+  .nm{font-family:var(--font-mono);font-size:11px;color:var(--fg);font-weight:600;letter-spacing:.02em;}
+  .hx{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);margin-top:2px;}
+</style></head>
+<body><div class="wrap">
+  <div class="kicker kicker--red">Void &amp; Surfaces — elevation scale</div>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:#08080A"></div><div class="meta"><div class="nm">void</div><div class="hx">#08080A</div></div></div>
+    <div class="sw"><div class="chip" style="background:#0B0B0E"></div><div class="meta"><div class="nm">bg</div><div class="hx">#0B0B0E</div></div></div>
+    <div class="sw"><div class="chip" style="background:#111115"></div><div class="meta"><div class="nm">panel</div><div class="hx">#111115</div></div></div>
+    <div class="sw"><div class="chip" style="background:#16161B"></div><div class="meta"><div class="nm">panel-2</div><div class="hx">#16161B</div></div></div>
+    <div class="sw"><div class="chip" style="background:#1D1D23"></div><div class="meta"><div class="nm">panel-3</div><div class="hx">#1D1D23</div></div></div>
+    <div class="sw"><div class="chip" style="background:#26262E"></div><div class="meta"><div class="nm">line</div><div class="hx">#26262E</div></div></div>
+  </div>
+</div></body></html>

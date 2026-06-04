@@ -1,0 +1,18 @@
+```yml
+title: XSS Attempt
+status: test
+description: Detects potential XSS attempts
+author: Your Name
+date: 2023-03-01
+modified: 2023-03-01
+logsource:
+  product: web_server
+  service: http
+detection:
+  selection:
+    c-uri|contains: "<script"
+  condition: selection
+falsepositives:
+  - Legitimate JavaScript usage
+level: medium
+```

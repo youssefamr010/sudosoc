@@ -1,0 +1,1 @@
+alert tcp any any -> any 4444 (msg:"Shell Injection Attempt"; content:"/bin/bash"; sid:1000001;)

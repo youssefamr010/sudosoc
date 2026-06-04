@@ -1,0 +1,1 @@
+alert tcp any any -> any 62093 (msg:"SudoSOC: XSS Attempt"; sid:8746861; rev:1; classtype:attempted-attack; priority:1;)

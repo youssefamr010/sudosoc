@@ -1,0 +1,1 @@
+alert tcp any any -> any 3333 (msg:"SudoSOC: Suspicious Port 3333 – Mining pool"; sid:4663427; rev:1; classtype:attempted-attack; priority:1;)

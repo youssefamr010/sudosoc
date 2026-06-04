@@ -1,0 +1,1 @@
+alert udp any any -> any 53683 (msg:"ML NORMAL 1.00"; sid:1000000; rev:1;)

@@ -1,0 +1,1 @@
+alert tcp any any -> any 1080 (msg:"SUSPICIOUS_PORT:1080 Potential SOCKS proxy detected"; sid:1000001; rev:1; classtype:unknown;)

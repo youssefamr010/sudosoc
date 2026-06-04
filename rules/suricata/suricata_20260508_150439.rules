@@ -1,0 +1,1 @@
+alert tcp any any -> any 80 (msg:"SQL Injection Attempt"; content:"UNION SELECT"; nocase; sid:1000001;)

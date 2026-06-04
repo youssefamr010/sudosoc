@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:22px 26px;display:flex;flex-direction:column;gap:14px;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .pill{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+        padding:6px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;
+        background:var(--panel-2);border:var(--bd);color:var(--fg-2);}
+  .pill .d{width:8px;height:8px;border-radius:999px;}
+  .mitre{font-family:var(--font-mono);font-size:11px;padding:6px 11px;border-radius:var(--r-xs);
+         background:var(--panel);border:var(--bd);color:var(--fg-2);display:inline-flex;gap:8px;align-items:center;}
+  .mitre b{color:var(--red-hi);}
+  .lab{font-family:var(--font-mono);font-size:10px;color:var(--fg-4);letter-spacing:.08em;}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kicker kicker--red">Response Tiers &amp; MITRE Chips</div>
+  <div class="row">
+    <span class="pill"><span class="d" style="background:#FF3B40"></span>AUTO_BLOCK</span>
+    <span class="pill"><span class="d" style="background:#FF8A3D"></span>ISOLATE</span>
+    <span class="pill"><span class="d" style="background:#3B82F6"></span>RATE_LIMIT</span>
+    <span class="pill"><span class="d" style="background:#25C26E"></span>LOG</span>
+  </div>
+  <div class="lab">RESPONSE TIERS — iptables action taken by the IPS</div>
+  <div class="row">
+    <span class="mitre"><b>TA0043</b> Reconnaissance</span>
+    <span class="mitre"><b>T1046</b> Network Service Scanning</span>
+    <span class="mitre"><b>T1498.001</b> Direct Network Flood</span>
+  </div>
+  <div class="lab">MITRE ATT&amp;CK — tactic / technique mapping per alert</div>
+</div></body></html>

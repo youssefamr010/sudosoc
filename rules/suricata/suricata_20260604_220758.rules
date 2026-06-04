@@ -1,0 +1,1 @@
+alert udp any any -> any 5353 (msg:"WAREZMASTER Detection"; metadata:rule ML:WAREZMASTER@0.83[m=0.701][ADAPTIVE]; sid:1000001; rev:1; classtype:trojan-activity;)

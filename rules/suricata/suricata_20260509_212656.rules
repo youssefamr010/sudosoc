@@ -1,0 +1,1 @@
+alert tcp any any -> any 5555 (msg:"SudoSOC: Suspicious Port 5555 – ADB / Metasploit alt"; sid:8207545; rev:1; classtype:attempted-attack; priority:1;)

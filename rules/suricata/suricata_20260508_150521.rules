@@ -1,0 +1,1 @@
+alert tcp any any -> any 445 (msg:"NOP-Sled/Shellcode Detection"; content:"|90 90 90 90 90 90 90 90|"; sid:1000001;)

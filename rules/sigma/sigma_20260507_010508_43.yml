@@ -1,0 +1,22 @@
+```yml
+title: Suspicious UDP Traffic to Multicast Address
+status: test
+description: Detects suspicious UDP traffic to a multicast address
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    src_ip: 192.168.56.1
+    src_port: 60641
+    dest_ip: 239.255.255.250
+    dest_port: 1900
+    proto: UDP
+  condition: selection
+falsepositives:
+  - Unknown
+level: low
+```

@@ -1,0 +1,1 @@
+alert icmp any any -> any 3 (msg:"ML:DOS@0.79 Possible DOS Attack"; sid:1000001; rev:1; classtype:dos;)

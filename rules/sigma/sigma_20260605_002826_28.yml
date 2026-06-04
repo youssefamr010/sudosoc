@@ -1,0 +1,22 @@
+```yml
+title: WAREZMASTER Detection
+status: test
+description: Detects WAREZMASTER activity
+author: Your Name
+date: 2024-09-16
+modified: 2024-09-16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    src_ip: 192.168.33.1
+    src_port: 5353
+    dest_ip: 224.0.0.251
+    dest_port: 5353
+    proto: udp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

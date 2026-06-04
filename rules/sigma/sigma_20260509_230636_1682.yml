@@ -1,0 +1,23 @@
+```yml
+title: GUESS_PASSWD Detection
+id: ML_GUESS_PASSWD
+status: test
+description: Detects potential password guessing attacks
+author: Your Name
+date: 2024-09-16
+modified: 2024-09-16
+logsource:
+  product: linux
+  service: ssh
+detection:
+  selection:
+    src_ip: 172.64.149.20
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 53402
+    protocol: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

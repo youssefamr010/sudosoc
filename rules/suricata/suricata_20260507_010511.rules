@@ -1,0 +1,1 @@
+alert udp any any -> any 1900 (msg:"NORMAL Traffic Detected"; sid:1000000; rev:1; metadata:ML:NORMAL@1.00;)

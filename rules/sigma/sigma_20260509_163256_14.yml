@@ -1,0 +1,21 @@
+```yml
+title: ATTACK Detection
+status: test
+description: Detects ATTACK activity
+author: System
+date: 2021/01/01
+modified: 2021/01/01
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    Proto: UDP
+    Source_IP: 142.251.209.202
+    Dest_IP: 192.168.100.5
+    Dest_Port: 57685
+  condition: selection
+falsepositives:
+  - Unknown
+level: high
+```

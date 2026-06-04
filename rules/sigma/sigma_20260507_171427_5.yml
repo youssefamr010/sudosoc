@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 6667 – IRC / botnet C2
+id: SUSPICIOUS_PORT_6667
+status: test
+description: Detects suspicious connections to port 6667, potentially related to IRC or botnet C2 communication
+author: Your Name
+date: 2024/09/16
+modified: 2024/09/16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 6667
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dst_ip
+- dst_port
+- proto
+falsepositives:
+- Legitimate IRC usage
+level: medium
+```

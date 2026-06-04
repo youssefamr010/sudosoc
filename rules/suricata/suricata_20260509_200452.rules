@@ -1,0 +1,1 @@
+alert tcp any any -> any 3333 (msg:"SudoSOC: Suspicious Port Probe"; sid:1514054; rev:1; classtype:attempted-attack; priority:1;)

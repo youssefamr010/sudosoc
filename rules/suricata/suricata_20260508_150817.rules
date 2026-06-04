@@ -1,0 +1,1 @@
+alert tcp any any -> any 4444 (msg:"Malware Dropper wget"; content:"wget http"; sid:1000001;)

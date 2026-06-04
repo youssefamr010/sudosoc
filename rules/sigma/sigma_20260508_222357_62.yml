@@ -1,0 +1,25 @@
+```yml
+title: PROBE Detection
+status: test
+description: Detects PROBE activity
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 162.247.243.29
+    src_port: 443
+    dest_ip: 172.20.10.6
+    dest_port: 51017
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: medium
+```

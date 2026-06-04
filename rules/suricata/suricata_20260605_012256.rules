@@ -1,0 +1,1 @@
+alert udp any any -> any 5353 (msg:"SudoSOC: APACHE2"; sid:2207877; rev:1; classtype:attempted-attack; priority:1;)

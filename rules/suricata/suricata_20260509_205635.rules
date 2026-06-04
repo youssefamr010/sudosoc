@@ -1,0 +1,1 @@
+alert tcp any any -> any 40 (msg:"SudoSOC: PROCESSTABLE"; sid:1528802; rev:1; classtype:attempted-attack; priority:1;)

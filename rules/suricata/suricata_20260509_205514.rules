@@ -1,0 +1,1 @@
+alert tcp any any -> any 4444 (msg:"SudoSOC: Suspicious Port 4444 – Metasploit default listener"; sid:2221721; rev:1; classtype:attempted-attack; priority:1;)

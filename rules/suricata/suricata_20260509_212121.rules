@@ -1,0 +1,1 @@
+alert tcp any any -> any 80 (msg:"PROCESSTABLE Detection"; metadata:rule=ML_PROCESSTABLE_0_79, service=http; sid:1000000; rev:1; classtype:web-application-attack;)

@@ -1,0 +1,1 @@
+alert tcp any any -> any 50803 (msg:"ML EXPLOIT 0.86"; sid:1000000; rev:1; metadata:ML:EXPLOIT@0.86[m=0.749][ADAPTIVE];)

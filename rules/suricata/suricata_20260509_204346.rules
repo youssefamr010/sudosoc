@@ -1,0 +1,1 @@
+alert tcp any any -> any 9050 (msg:"SudoSOC: Suspicious Port 9050 – Tor SOCKS proxy"; sid:7815744; rev:1; classtype:attempted-attack; priority:1;)

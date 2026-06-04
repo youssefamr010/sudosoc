@@ -1,0 +1,1 @@
+alert tcp any any -> any 61171 (msg:"MAILBOMB Attack"; sid:1000001; rev:1; classtype:attempted-recon; metadata:ML, MAILBOMB@0.98[m=0.976][ADAPTIVE];)

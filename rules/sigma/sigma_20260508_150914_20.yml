@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 4899 - Radmin RAT
+id: 9f6c5e8a-4b5a-4567-8e9a-5678943f21
+status: test
+description: Detects suspicious connections to port 4899, which may indicate Radmin RAT activity
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 4899
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dst_ip
+- dst_port
+- proto
+falsepositives:
+- unknown
+level: medium
+```

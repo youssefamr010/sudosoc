@@ -1,0 +1,22 @@
+```yml
+title: Suspicious Connection to External Server
+status: test
+description: Detects suspicious connections to external servers
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 192.168.100.5
+    src_port: 60870
+    dest_ip: 104.121.1.87
+    dest_port: 443
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: low
+```

@@ -1,0 +1,18 @@
+```yml
+title: Suspicious NORMAL Traffic
+status: test
+description: Detects suspicious NORMAL traffic
+tags:
+  - network
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 172.64.149.20
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 56757
+    proto: tcp
+  condition: selection
+```

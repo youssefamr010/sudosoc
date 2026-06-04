@@ -1,0 +1,1 @@
+alert tcp any any -> any 65470 (msg:"SudoSOC: APACHE2"; sid:3205115; rev:1; classtype:attempted-attack; priority:1;)

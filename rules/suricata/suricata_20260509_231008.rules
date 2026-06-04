@@ -1,0 +1,1 @@
+alert tcp any any -> any 53498 (msg:"GUESS_PASSWD Attempt"; sid:1000000; rev:1; metadata:ML:GUESS_PASSWD@0.86[m=0.830][ADAPTIVE];)

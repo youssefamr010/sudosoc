@@ -1,0 +1,1 @@
+alert tcp any any -> any 6667 (msg:"SudoSOC: Suspicious Port 6667 – IRC / botnet C2"; sid:1448705; rev:1; classtype:attempted-attack; priority:1;)

@@ -1,0 +1,39 @@
+────────────────────────────────────────────────────────────────────
+  IDS / IPS TRAINER — Run Guide
+────────────────────────────────────────────────────────────────────
+
+ORIGINAL WORKFLOW (unchanged):
+  1) python3 ids_ips_trainer.py        # Train the model from data/processed_*.csv
+  2) python3 realtime_ids.py           # Start the live IDS/IPS engine
+  3) streamlit run dashboard.py        # Streamlit dashboard
+
+STATIC DASHBOARD (no server needed):
+  Open ids_dashboard.html in a browser, then "Load Alert Log" your
+  ids_alerts.jsonl produced by realtime_ids.py.
+
+────────────────────────────────────────────────────────────────────
+  SCENARIO TESTING + BEFORE/AFTER RETRAINING  (new)
+────────────────────────────────────────────────────────────────────
+
+  python3 test_scenarios.py
+
+This will:
+  • Generate ~380 realistic flows across 4 scenarios:
+       port_scan, ddos_flood, exfiltration, benign_web
+  • Run the current trained predictor and capture BEFORE confidence
+  • Append the labeled scenarios to data/online_learning.csv
+       (the trainer already auto-boosts these 10x — no core change)
+  • Re-run ids_ips_trainer.py to retrain
+  • Reload the predictor and capture AFTER confidence
+  • Save snapshots + report:
+       test_results/scenarios.csv
+       test_results/before_predictions.csv
+       test_results/after_predictions.csv
+       test_results/confidence_report.json
+       test_results/confidence_report.md
+       test_results/model_snapshot_before.joblib
+       test_results/model_snapshot_after.joblib
+
+  Flags:
+    --quick        smaller scenario set (faster)
+    --no-retrain   only run the BEFORE pass (skip retraining)

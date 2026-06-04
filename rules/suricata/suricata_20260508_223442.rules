@@ -1,0 +1,1 @@
+alert tcp any any -> any 65314 (msg:"SudoSOC: SHELLCODE"; sid:7702804; rev:1; classtype:attempted-attack; priority:1;)

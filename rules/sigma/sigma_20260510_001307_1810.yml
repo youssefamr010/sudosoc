@@ -1,0 +1,17 @@
+```yml
+title: Potential DOS Attack
+status: test
+description: Detects potential DOS attacks
+detection:
+  selection:
+    tcp.src_port: 443
+    tcp.dst_port: 61903
+    src_ip: 104.103.197.236
+    dst_ip: 192.168.100.5
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+tags:
+  - DOS
+```

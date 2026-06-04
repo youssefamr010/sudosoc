@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 31337 - Back Orifice RAT
+id: 9f6c3a3a-4a5b-4567-890e-65e2a3414e23
+status: test
+description: Detects suspicious connections to port 31337, commonly used by Back Orifice RAT
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 31337
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dst_ip
+- dst_port
+- proto
+falsepositives:
+- unknown
+level: medium
+```

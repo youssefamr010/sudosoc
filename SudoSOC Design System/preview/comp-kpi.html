@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .kpi{background:var(--panel);border:var(--bd);border-radius:var(--r-lg);padding:16px;
+       position:relative;overflow:hidden;box-shadow:var(--inset-top);}
+  .kpi .ic{position:absolute;top:14px;right:14px;color:var(--fg-4);}
+  .kpi .ic svg{width:18px;height:18px;}
+  .kpi.alert{border-color:rgba(219,34,35,.4);}
+  .kpi.alert .ic{color:var(--red-hi);}
+  .lab{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);letter-spacing:.12em;text-transform:uppercase;}
+  .val{font-family:var(--font-mono);font-weight:700;font-size:30px;color:var(--fg);margin-top:8px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+  .val.red{color:var(--red-hi);}
+  .delta{font-family:var(--font-mono);font-size:11px;margin-top:4px;}
+  .up{color:var(--red-hi);}.ok{color:var(--safe);}
+  .spark{height:24px;margin-top:8px;display:flex;align-items:flex-end;gap:2px;}
+  .spark span{flex:1;background:var(--red);opacity:.55;border-radius:1px;}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kpi"><div class="ic"><i data-lucide="activity"></i></div>
+    <div class="lab">Total flows</div><div class="val" data-to="1284902">0</div>
+    <div class="delta ok">+12,840 / min</div></div>
+  <div class="kpi alert"><div class="ic"><i data-lucide="shield-alert"></i></div>
+    <div class="lab">Attacks</div><div class="val red" data-to="3417">0</div>
+    <div class="spark" id="spark"></div></div>
+  <div class="kpi"><div class="ic"><i data-lucide="ban"></i></div>
+    <div class="lab">Blocked</div><div class="val" data-to="3390">0</div>
+    <div class="delta up">99.2% auto</div></div>
+</div>
+<script>
+  document.querySelectorAll('.val[data-to]').forEach(el=>{
+    const to=+el.dataset.to; const dur=1400; const t0=performance.now();
+    function step(t){const k=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-k,3);
+      el.textContent=Math.round(to*e).toLocaleString();if(k<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  });
+  const sp=document.getElementById('spark');
+  for(let i=0;i<16;i++){const s=document.createElement('span');s.style.height=(20+Math.random()*80)+'%';sp.appendChild(s);}
+  setInterval(()=>{[...sp.children].forEach(s=>s.style.height=(20+Math.random()*80)+'%');},1200);
+  lucide.createIcons();
+</script></body></html>

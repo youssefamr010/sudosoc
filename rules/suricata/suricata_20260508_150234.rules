@@ -1,0 +1,1 @@
+alert tcp any any -> any 49188 (msg:"ML:EXPLOITS@0.87[LLM-ESCALATED]"; sid:1000000; rev:1;)

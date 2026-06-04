@@ -1,0 +1,1 @@
+alert tcp any any -> any 50323 (msg:"APACHE2 ML:APACHE2@0.80[m=0.778][ADAPTIVE]"; sid:1000001; rev:1;)

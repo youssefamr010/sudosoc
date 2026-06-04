@@ -1,0 +1,1 @@
+alert udp any any -> any 5353 (msg:"WAREZMASTER Malware Activity"; metadata:rule ML:WAREZMASTER@0.73[m=0.498][ADAPTIVE]; sid:1000001; rev:1; classtype:malware-c2;)

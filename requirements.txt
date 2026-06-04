@@ -1,0 +1,14 @@
+pandas
+numpy
+scikit-learn
+xgboost
+joblib
+requests
+scapy
+streamlit
+plotly
+matplotlib
+seaborn
+shap
+mitmproxy
+watchdog

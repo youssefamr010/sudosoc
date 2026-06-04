@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IDS/IPS — Threat Operations Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  /* ─────────────── Design tokens ─────────────── */
+  :root {
+    --bg-0:        #070b14;
+    --bg-1:        #0c1322;
+    --surface:     #111a2d;
+    --surface-2:   #16213a;
+    --surface-3:   #1c2a45;
+    --border:      #1f2d49;
+    --border-soft: #18243c;
+
+    --accent:      #38bdf8;   /* sky */
+    --accent-2:    #6366f1;   /* indigo */
+    --danger:      #ef4444;
+    --danger-2:    #f43f5e;
+    --warn:        #f59e0b;
+    --safe:        #10b981;
+
+    --text:        #e2e8f0;
+    --text-soft:   #94a3b8;
+    --text-dim:    #64748b;
+    --text-muted:  #475569;
+
+    --mono:        'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans:        'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+    --shadow-sm:   0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md:   0 4px 16px rgba(0,0,0,0.35);
+    --shadow-lg:   0 10px 40px rgba(0,0,0,0.45);
+
+    --radius-sm:   6px;
+    --radius:      10px;
+    --radius-lg:   14px;
+  }
+
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(99,102,241,0.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 100%, rgba(56,189,248,0.05), transparent 60%),
+      var(--bg-0);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* GPU promotion + paint isolation for the heaviest panels */
+  .panel, .stat-card, #alert-feed { contain: layout style; }
+  #alert-feed { will-change: scroll-position; }
+
+  /* ─────────────── Header ─────────────── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--surface) 0%, rgba(17,26,45,0.85) 100%);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .logo { display: flex; align-items: center; gap: 14px; }
+  .logo-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    display: grid; place-items: center;
+    color: #fff; font-weight: 800; font-size: 16px;
+    box-shadow: 0 0 0 1px rgba(56,189,248,0.25), 0 6px 18px rgba(56,189,248,0.18);
+  }
+  .logo-text {
+    font-size: 1rem; font-weight: 700; letter-spacing: .04em;
+    color: var(--text);
+  }
+  .logo-sub {
+    font-size: .68rem; color: var(--text-dim);
+    letter-spacing: .18em; text-transform: uppercase;
+    font-family: var(--mono); font-weight: 500;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+    font-family: var(--mono); text-transform: uppercase;
+    border: 1px solid;
+    transition: background .2s, border-color .2s;
+  }
+  .status-pill.live    { background: rgba(16,185,129,.08); border-color: rgba(16,185,129,.35); color: var(--safe); }
+  .status-pill.offline { background: rgba(239,68,68,.06); border-color: rgba(239,68,68,.3); color: var(--danger); }
+
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .dot.live { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse {
+    0%,100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
+    50%     { opacity: .35; }
+  }
+
+  #clock {
+    font-family: var(--mono);
+    font-size: .82rem; font-weight: 500;
+    color: var(--text-soft);
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+
+  /* ─────────────── Toolbar ─────────────── */
+  .upload-bar {
+    padding: 10px 24px;
+    display: flex; align-items: center; gap: 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-1);
+    font-size: .82rem; color: var(--text-soft);
+  }
+  .upload-bar label {
+    cursor: pointer;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    background: var(--surface);
+    font-family: var(--mono); font-size: .74rem; font-weight: 600;
+    transition: background .15s, border-color .15s, color .15s;
+    user-select: none;
+  }
+  .upload-bar label:hover {
+    border-color: var(--accent);
+    background: rgba(56,189,248,.08);
+  }
+  #file-input { display: none; }
+  #file-name  { font-family: var(--mono); color: var(--text-dim); font-size: .76rem; }
+  #file-name code {
+    background: var(--surface-2);
+    padding: 1px 6px; border-radius: 4px;
+    color: var(--text-soft);
+  }
+  .toolbar-hint {
+    margin-left: auto; color: var(--text-muted);
+    font-size: .7rem; font-family: var(--mono);
+  }
+
+  /* ─────────────── Stat cards ─────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    padding: 20px 24px 6px;
+  }
+
+  .stat-card {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg-1) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--accent));
+    opacity: .85;
+  }
+  .stat-card:hover {
+    border-color: var(--card-accent, var(--accent));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .stat-card.danger { --card-accent: var(--danger); }
+  .stat-card.warn   { --card-accent: var(--warn); }
+  .stat-card.safe   { --card-accent: var(--safe); }
+  .stat-card.accent { --card-accent: var(--accent); }
+
+  .stat-label {
+    font-size: .66rem; letter-spacing: .14em;
+    color: var(--text-dim); font-family: var(--mono);
+    text-transform: uppercase; font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .stat-value {
+    font-size: 1.85rem; font-weight: 700;
+    color: var(--card-accent, var(--accent));
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    transition: text-shadow .25s, transform .25s;
+  }
+  .stat-value.bump {
+    transform: scale(1.06);
+    text-shadow: 0 0 18px currentColor;
+  }
+  .stat-sub {
+    font-size: .72rem; color: var(--text-dim);
+    margin-top: 8px; font-family: var(--mono);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  /* ─────────────── Layout ─────────────── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 14px;
+    padding: 14px 24px 28px;
+  }
+
+  /* ─────────────── Panel ─────────────── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  }
+  .panel-title {
+    font-size: .72rem; font-weight: 600; letter-spacing: .14em;
+    color: var(--text-soft); font-family: var(--mono);
+    text-transform: uppercase;
+  }
+  .panel-badge {
+    font-size: .68rem; font-family: var(--mono); font-weight: 500;
+    padding: 3px 9px; border-radius: 999px;
+    background: rgba(56,189,248,.1);
+    color: var(--accent);
+    border: 1px solid rgba(56,189,248,.25);
+  }
+
+  /* ─────────────── Alert feed ─────────────── */
+  #alert-feed {
+    height: 480px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  #alert-feed::-webkit-scrollbar { width: 6px; }
+  #alert-feed::-webkit-scrollbar-track { background: transparent; }
+  #alert-feed::-webkit-scrollbar-thumb {
+    background: var(--surface-3); border-radius: 4px;
+  }
+  #alert-feed::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+  .feed-header {
+    display: grid;
+    grid-template-columns: 56px 1fr 88px 120px 78px;
+    gap: 12px;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: .64rem; letter-spacing: .12em;
+    color: var(--text-dim); font-family: var(--mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    background: var(--surface-2);
+    position: sticky; top: 0; z-index: 2;
+  }
+
+  .alert-row {
+    display: grid;
+    grid-template-columns: 56px 1fr 88px 120px 78px;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 18px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: .8rem;
+    transition: background .12s;
+  }
+  .alert-row:hover { background: var(--surface-2); }
+
+  .alert-id {
+    font-family: var(--mono); font-size: .72rem; color: var(--text-muted);
+  }
+  .alert-flow { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .alert-flow .src {
+    color: var(--text); font-family: var(--mono); font-size: .76rem;
+    font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .alert-flow .dst {
+    color: var(--text-dim); font-family: var(--mono); font-size: .7rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .alert-label {
+    font-size: .68rem; font-weight: 700; letter-spacing: .05em;
+    padding: 4px 8px; border-radius: 5px;
+    text-align: center;
+    font-family: var(--mono);
+  }
+  .label-attack  { background: rgba(239,68,68,.14);  color: var(--danger); }
+  .label-normal  { background: rgba(16,185,129,.12); color: var(--safe); }
+  .label-unknown { background: rgba(245,158,11,.12); color: var(--warn); }
+
+  .conf-bar {
+    height: 5px; background: var(--surface-3); border-radius: 4px;
+    overflow: hidden;
+  }
+  .conf-fill {
+    height: 100%; border-radius: 4px;
+    transition: width .4s ease;
+  }
+  .conf-val {
+    font-family: var(--mono); font-size: .68rem;
+    color: var(--text-dim); margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .action-badge {
+    font-size: .65rem; font-weight: 700; letter-spacing: .08em;
+    padding: 4px 8px; border-radius: 5px; text-align: center;
+    font-family: var(--mono);
+  }
+  .action-block { background: rgba(239,68,68,.18); color: var(--danger);
+                  border: 1px solid rgba(239,68,68,.32); }
+  .action-alert { background: rgba(245,158,11,.14); color: var(--warn);
+                  border: 1px solid rgba(245,158,11,.32); }
+  .action-allow { background: rgba(16,185,129,.1); color: var(--safe);
+                  border: 1px solid rgba(16,185,129,.25); }
+
+  /* ─────────────── Sidebar ─────────────── */
+  .sidebar { display: flex; flex-direction: column; gap: 14px; }
+
+  .ip-list { padding: 4px 0; }
+  .ip-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: .78rem;
+    transition: background .12s;
+  }
+  .ip-row:last-child { border-bottom: none; }
+  .ip-row:hover { background: var(--surface-2); }
+  .ip-addr { font-family: var(--mono); color: var(--text); font-weight: 500; }
+  .ip-count {
+    font-family: var(--mono); font-size: .7rem; font-weight: 600;
+    color: var(--danger);
+    background: rgba(239,68,68,.1);
+    padding: 3px 8px; border-radius: 999px;
+    border: 1px solid rgba(239,68,68,.2);
+  }
+
+  .proto-chart { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .proto-row { display: flex; flex-direction: column; gap: 5px; }
+  .proto-meta { display: flex; justify-content: space-between; font-size: .74rem; }
+  .proto-name { color: var(--text); font-family: var(--mono); font-weight: 500; }
+  .proto-pct  { color: var(--text-dim); font-family: var(--mono); }
+  .proto-bar  { height: 6px; background: var(--surface-3); border-radius: 3px; overflow: hidden; }
+  .proto-fill { height: 100%; border-radius: 3px; transition: width .5s ease; }
+
+  .port-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; padding: 14px 18px;
+  }
+  .port-chip {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 3px;
+    transition: border-color .15s, transform .15s;
+  }
+  .port-chip:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .port-num  { font-family: var(--mono); font-size: .82rem; color: var(--accent); font-weight: 600; }
+  .port-name { font-size: .65rem; color: var(--text-dim); letter-spacing: .04em; }
+  .port-cnt  { font-size: .7rem; color: var(--warn); font-family: var(--mono); font-weight: 600; }
+
+  /* ─────────────── Empty / page scrollbar ─────────────── */
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 220px; gap: 12px;
+    color: var(--text-dim); font-size: .82rem; font-family: var(--mono);
+  }
+  .empty-icon { font-size: 2.2rem; opacity: .35; }
+
+  ::-webkit-scrollbar { width: 7px; height: 7px; }
+  ::-webkit-scrollbar-track { background: var(--bg-0); }
+  ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+  /* ─────────────── Responsive ─────────────── */
+  @media (max-width: 1100px) {
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .main       { grid-template-columns: 1fr; }
+    .toolbar-hint { display: none; }
+  }
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    header { padding: 12px 16px; }
+    .upload-bar, .main, .stats-grid { padding-left: 16px; padding-right: 16px; }
+    .alert-row, .feed-header { grid-template-columns: 44px 1fr 70px 90px 60px; }
+  }
+
+  /* ─────────────── Reduced motion ─────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">◆</div>
+    <div>
+      <div class="logo-text">IDS / IPS · Threat Operations</div>
+      <div class="logo-sub">Live Threat Monitor</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div id="status-pill" class="status-pill offline">
+      <span class="dot"></span>
+      <span id="status-text">OFFLINE</span>
+    </div>
+    <div id="clock">--:--:--</div>
+  </div>
+</header>
+
+<!-- ── File picker bar ───────────────────────────── -->
+<div class="upload-bar">
+  <label for="file-input">Load Alert Log</label>
+  <input type="file" id="file-input" accept=".jsonl,.json,.log">
+  <span id="file-name">Drop your <code>ids_alerts.jsonl</code> file here, or click to browse</span>
+  <span class="toolbar-hint">Auto-refresh on reload · 3s</span>
+</div>
+
+<!-- ── Stat cards ─────────────────────────────────── -->
+<div class="stats-grid">
+  <div class="stat-card danger">
+    <div class="stat-label">Attacks Detected</div>
+    <div class="stat-value" id="s-attacks">0</div>
+    <div class="stat-sub" id="s-attack-rate">—</div>
+  </div>
+  <div class="stat-card safe">
+    <div class="stat-label">Normal Flows</div>
+    <div class="stat-value" id="s-normal">0</div>
+    <div class="stat-sub" id="s-normal-pct">—</div>
+  </div>
+  <div class="stat-card warn">
+    <div class="stat-label">IPs Blocked</div>
+    <div class="stat-value" id="s-blocked">0</div>
+    <div class="stat-sub" id="s-block-list">—</div>
+  </div>
+  <div class="stat-card accent">
+    <div class="stat-label">Total Flows</div>
+    <div class="stat-value" id="s-total">0</div>
+    <div class="stat-sub" id="s-uptime">Loaded: —</div>
+  </div>
+</div>
+
+<!-- ── Main grid ──────────────────────────────────── -->
+<div class="main">
+
+  <!-- Alert feed -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Live Alert Feed</span>
+      <span class="panel-badge" id="feed-count">0 events</span>
+    </div>
+    <div class="feed-header">
+      <span>#</span>
+      <span>Source → Destination</span>
+      <span>Label</span>
+      <span>Confidence</span>
+      <span>Action</span>
+    </div>
+    <div id="alert-feed">
+      <div class="empty-state">
+        <div class="empty-icon">◇</div>
+        <div>No alerts yet — load an ids_alerts.jsonl file</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Top Attacking IPs</span>
+        <span class="panel-badge" id="uniq-ips">0 unique</span>
+      </div>
+      <div id="ip-list" class="ip-list">
+        <div class="empty-state" style="height:120px">
+          <div class="empty-icon" style="font-size:1.4rem">·</div>
+          <div>No data</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Protocol Distribution</span>
+      </div>
+      <div id="proto-chart" class="proto-chart">
+        <div class="empty-state" style="height:80px; font-size:.7rem">No data</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Top Targeted Ports</span>
+      </div>
+      <div id="port-grid" class="port-grid">
+        <div style="grid-column:1/-1" class="empty-state">
+          <div class="empty-icon" style="font-size:1.4rem">·</div>
+          <div>No data</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  State + constants (unchanged contract)
+// ══════════════════════════════════════════════
+const state = {
+  alerts:     [],
+  fileHandle: null,
+  loadedAt:   null,
+};
+
+const PROTO_NAMES = { 6:'TCP', 17:'UDP', 1:'ICMP', 89:'OSPF', 132:'SCTP' };
+const PORT_NAMES  = {
+  80:'HTTP', 443:'HTTPS', 22:'SSH', 21:'FTP', 25:'SMTP',
+  53:'DNS', 3389:'RDP', 3306:'MySQL', 4444:'Metasploit',
+  6881:'BitTorrent', 111:'RPC', 514:'Syslog', 520:'RIP',
+  1337:'Backdoor', 8080:'Proxy', 9999:'C2',
+};
+
+// Performance knobs
+const MAX_FEED_ROWS = 200;  // hard cap; keeps DOM small for fast paints
+
+// ══════════════════════════════════════════════
+//  Clock (1Hz; cheap)
+// ══════════════════════════════════════════════
+setInterval(() => {
+  document.getElementById('clock').textContent =
+    new Date().toLocaleTimeString('en-GB');
+}, 1000);
+
+// ══════════════════════════════════════════════
+//  File loading
+// ══════════════════════════════════════════════
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  document.getElementById('file-name').textContent = file.name;
+  loadFile(file);
+});
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const lines = ev.target.result.split('\n');
+    const parsed = new Array(lines.length);
+    let n = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line) continue;
+      try { parsed[n++] = JSON.parse(line); }
+      catch (_) {}
+    }
+    parsed.length = n;
+    state.alerts   = parsed;
+    state.loadedAt = new Date();
+    scheduleRender();
+    setStatus(true);
+  };
+  reader.readAsText(file);
+}
+
+// ══════════════════════════════════════════════
+//  Status pill
+// ══════════════════════════════════════════════
+function setStatus(live) {
+  const pill = document.getElementById('status-pill');
+  const dot  = pill.querySelector('.dot');
+  const txt  = document.getElementById('status-text');
+  pill.className = 'status-pill ' + (live ? 'live' : 'offline');
+  dot.className  = 'dot ' + (live ? 'live' : '');
+  txt.textContent = live ? 'LIVE' : 'OFFLINE';
+}
+
+// ══════════════════════════════════════════════
+//  Debounced render (rAF coalescing)
+// ══════════════════════════════════════════════
+let _renderPending = false;
+function scheduleRender() {
+  if (_renderPending) return;
+  _renderPending = true;
+  requestAnimationFrame(() => {
+    _renderPending = false;
+    render();
+  });
+}
+
+// ══════════════════════════════════════════════
+//  Main render — single-pass aggregation
+// ══════════════════════════════════════════════
+function render() {
+  const alerts = state.alerts;
+  const total  = alerts.length;
+
+  // Single pass: classify + aggregate everything at once (cheaper than 5 filters)
+  const attacks   = [];
+  let   normals   = 0;
+  const blockedIPset = new Set();
+  const ipCounts    = Object.create(null);
+  const protoCounts = Object.create(null);
+  const portCounts  = Object.create(null);
+
+  for (let i = 0; i < total; i++) {
+    const a = alerts[i];
+    const act = a.action;
+    if (act === 'BLOCK' || act === 'ALERT') {
+      attacks.push(a);
+      if (act === 'BLOCK' && a.src_ip) blockedIPset.add(a.src_ip);
+      if (a.src_ip)    ipCounts[a.src_ip]   = (ipCounts[a.src_ip]   || 0) + 1;
+      if (a.dst_port != null) portCounts[a.dst_port] = (portCounts[a.dst_port] || 0) + 1;
+    } else if (act === 'ALLOW') {
+      normals++;
+    }
+    const pn = PROTO_NAMES[a.protocol] || ('P' + a.protocol);
+    protoCounts[pn] = (protoCounts[pn] || 0) + 1;
+  }
+  const blockedIPs = [...blockedIPset];
+
+  // Stat cards
+  animateValue('s-attacks', attacks.length);
+  animateValue('s-normal',  normals);
+  animateValue('s-blocked', blockedIPs.length);
+  animateValue('s-total',   total);
+
+  const pct = total ? ((normals / total) * 100).toFixed(1) : '—';
+  document.getElementById('s-normal-pct').textContent    = total ? `${pct}% of traffic` : '—';
+  document.getElementById('s-attack-rate').textContent   = `${attacks.length} threats detected`;
+  document.getElementById('s-block-list').textContent    = blockedIPs.slice(0,2).join(', ') || '—';
+  document.getElementById('s-uptime').textContent        =
+    state.loadedAt ? 'Loaded: ' + state.loadedAt.toLocaleTimeString() : '—';
+
+  // Panels
+  renderFeed(attacks);
+
+  const topIPs = Object.entries(ipCounts).sort((x,y) => y[1]-x[1]).slice(0,6);
+  renderIPs(topIPs);
+
+  renderProtos(protoCounts, total);
+
+  const topPorts = Object.entries(portCounts).sort((x,y) => y[1]-x[1]).slice(0,8);
+  renderPorts(topPorts);
+
+  document.getElementById('feed-count').textContent = `${total} events`;
+  document.getElementById('uniq-ips').textContent   = `${Object.keys(ipCounts).length} unique`;
+}
+
+// ══════════════════════════════════════════════
+//  Render helpers (cap output for fast paint)
+// ══════════════════════════════════════════════
+function renderFeed(attacks) {
+  const feed = document.getElementById('alert-feed');
+  if (!attacks.length) {
+    feed.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-icon">◇</div>' +
+      '<div>No alerts yet</div></div>';
+    return;
+  }
+
+  // Newest-first, hard cap. We build one big string then assign innerHTML
+  // (faster than appendChild in a loop for 100+ rows).
+  const cap = Math.min(attacks.length, MAX_FEED_ROWS);
+  const parts = new Array(cap);
+  let idx = 0;
+  for (let i = attacks.length - 1; i >= 0 && idx < cap; i--, idx++) {
+    const a = attacks[i];
+    const label = a.label;
+    const labelClass  = label === 'NORMAL' ? 'label-normal'
+                      : label === 'ATTACK' ? 'label-attack'
+                      : 'label-unknown';
+    const action = a.action;
+    const actionClass = action === 'BLOCK' ? 'action-block'
+                      : action === 'ALERT' ? 'action-alert'
+                      : 'action-allow';
+    const conf  = Math.round((a.confidence || 0) * 100);
+    const color = action === 'BLOCK' ? '#ef4444'
+                : action === 'ALERT' ? '#f59e0b'
+                : '#10b981';
+    const proto = PROTO_NAMES[a.protocol] || ('P' + a.protocol);
+    parts[idx] =
+      '<div class="alert-row">' +
+        '<span class="alert-id">#' + (a.id ?? '?') + '</span>' +
+        '<div class="alert-flow">' +
+          '<span class="src">' + a.src_ip + ':' + a.src_port + '</span>' +
+          '<span class="dst">→ ' + a.dst_ip + ':' + a.dst_port + ' (' + proto + ')</span>' +
+        '</div>' +
+        '<span class="alert-label ' + labelClass + '">' + label + '</span>' +
+        '<div>' +
+          '<div class="conf-bar"><div class="conf-fill" style="width:' + conf + '%;background:' + color + '"></div></div>' +
+          '<div class="conf-val">' + conf + '%</div>' +
+        '</div>' +
+        '<span class="action-badge ' + actionClass + '">' + action + '</span>' +
+      '</div>';
+  }
+  feed.innerHTML = parts.join('');
+}
+
+function renderIPs(topIPs) {
+  const el = document.getElementById('ip-list');
+  if (!topIPs.length) {
+    el.innerHTML = '<div class="empty-state" style="height:120px">' +
+      '<div class="empty-icon" style="font-size:1.4rem">·</div><div>No data</div></div>';
+    return;
+  }
+  const out = new Array(topIPs.length);
+  for (let i = 0; i < topIPs.length; i++) {
+    const [ip, cnt] = topIPs[i];
+    out[i] = '<div class="ip-row">' +
+      '<span class="ip-addr">' + ip + '</span>' +
+      '<span class="ip-count">' + cnt + ' hits</span></div>';
+  }
+  el.innerHTML = out.join('');
+}
+
+function renderProtos(counts, total) {
+  const el = document.getElementById('proto-chart');
+  const entries = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  if (!entries.length) {
+    el.innerHTML = '<div class="empty-state" style="height:80px;font-size:.7rem">No data</div>';
+    return;
+  }
+  const colors = ['#38bdf8','#10b981','#f59e0b','#ef4444','#a78bfa'];
+  const out = new Array(entries.length);
+  for (let i = 0; i < entries.length; i++) {
+    const [name, cnt] = entries[i];
+    const pct = total ? ((cnt/total)*100).toFixed(1) : 0;
+    out[i] = '<div class="proto-row">' +
+      '<div class="proto-meta">' +
+        '<span class="proto-name">' + name + '</span>' +
+        '<span class="proto-pct">' + pct + '%  (' + cnt + ')</span>' +
+      '</div>' +
+      '<div class="proto-bar"><div class="proto-fill" style="width:' + pct + '%;background:' + colors[i%colors.length] + '"></div></div>' +
+    '</div>';
+  }
+  el.innerHTML = out.join('');
+}
+
+function renderPorts(topPorts) {
+  const el = document.getElementById('port-grid');
+  if (!topPorts.length) {
+    el.innerHTML = '<div style="grid-column:1/-1" class="empty-state">' +
+      '<div class="empty-icon" style="font-size:1.4rem">·</div><div>No data</div></div>';
+    return;
+  }
+  const out = new Array(topPorts.length);
+  for (let i = 0; i < topPorts.length; i++) {
+    const [port, cnt] = topPorts[i];
+    const name = PORT_NAMES[port] || 'Unknown';
+    out[i] = '<div class="port-chip">' +
+      '<span class="port-num">:' + port + '</span>' +
+      '<span class="port-name">' + name + '</span>' +
+      '<span class="port-cnt">' + cnt + ' hits</span>' +
+    '</div>';
+  }
+  el.innerHTML = out.join('');
+}
+
+// ══════════════════════════════════════════════
+//  Animated counter — rAF, no setTimeout chain
+// ══════════════════════════════════════════════
+const prevVals = Object.create(null);
+function animateValue(id, newVal) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const prev = prevVals[id] || 0;
+  if (prev === newVal) return;
+  prevVals[id] = newVal;
+
+  const start = prev, end = newVal;
+  const duration = 360;
+  const t0 = performance.now();
+  const tick = now => {
+    const p = Math.min((now - t0) / duration, 1);
+    el.textContent = Math.round(start + (end - start) * p).toLocaleString();
+    if (p < 1) requestAnimationFrame(tick);
+    else {
+      el.classList.add('bump');
+      // remove via rAF instead of setTimeout to avoid timer noise
+      let frames = 18; // ~300ms
+      const clear = () => {
+        if (--frames <= 0) el.classList.remove('bump');
+        else requestAnimationFrame(clear);
+      };
+      requestAnimationFrame(clear);
+    }
+  };
+  requestAnimationFrame(tick);
+}
+
+// ══════════════════════════════════════════════
+//  Demo data (initial paint)
+// ══════════════════════════════════════════════
+const DEMO = [
+  {id:1, timestamp:'2024-01-01T10:00:01Z', src_ip:'59.166.0.5',  dst_ip:'149.171.126.1',  src_port:12345, dst_port:4444,  protocol:6,  label:'ATTACK', confidence:.91, action:'BLOCK', packets:2,    bytes:120,    duration_ms:0},
+  {id:2, timestamp:'2024-01-01T10:00:03Z', src_ip:'175.45.176.0',dst_ip:'149.171.126.3',  src_port:45123, dst_port:80,    protocol:6,  label:'NORMAL', confidence:.83, action:'ALLOW', packets:20,   bytes:8200,   duration_ms:310},
+  {id:3, timestamp:'2024-01-01T10:00:05Z', src_ip:'59.166.0.2',  dst_ip:'149.171.126.5',  src_port:45000, dst_port:6881,  protocol:6,  label:'ATTACK', confidence:.76, action:'BLOCK', packets:2000, bytes:2000000,duration_ms:500},
+  {id:4, timestamp:'2024-01-01T10:00:08Z', src_ip:'10.40.85.10', dst_ip:'149.171.126.14', src_port:54312, dst_port:53,    protocol:17, label:'NORMAL', confidence:.95, action:'ALLOW', packets:4,    bytes:388,    duration_ms:12},
+  {id:5, timestamp:'2024-01-01T10:00:10Z', src_ip:'59.166.0.9',  dst_ip:'149.171.126.8',  src_port:33761, dst_port:520,   protocol:17, label:'ATTACK', confidence:.68, action:'ALERT', packets:45,   bytes:37200,  duration_ms:220},
+  {id:6, timestamp:'2024-01-01T10:00:14Z', src_ip:'175.45.176.2',dst_ip:'149.171.126.10', src_port:49200, dst_port:111,   protocol:6,  label:'ATTACK', confidence:.84, action:'BLOCK', packets:12,   bytes:3400,   duration_ms:88},
+];
+
+state.alerts   = DEMO;
+state.loadedAt = new Date();
+scheduleRender();
+</script>
+</body>
+</html>

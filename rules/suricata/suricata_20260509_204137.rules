@@ -1,0 +1,1 @@
+alert tcp any any -> any 4444 (msg:"SudoSOC: Shell Injection"; sid:4397974; rev:1; classtype:attempted-attack; priority:1;)

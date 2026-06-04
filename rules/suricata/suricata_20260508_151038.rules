@@ -1,0 +1,1 @@
+alert tcp any any -> any 1337 (msg:"SudoSOC: Suspicious Port 1337 – Elite / hacker port"; sid:3938449; rev:1; classtype:attempted-attack; priority:1;)

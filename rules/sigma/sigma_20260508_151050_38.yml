@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 9001 - Tor Entry Node
+status: test
+description: Detects suspicious connections to port 9001, potentially indicating Tor entry node activity
+references:
+  - https://torproject.org/
+tags:
+  - tor
+  - c2
+logsource:
+  category: network
+  product: firewall
+detection:
+  selection:
+    dst_port: 9001
+    proto: tcp
+  condition: selection
+fields:
+  - dst_ip
+  - src_ip
+  - dst_port
+  - proto
+falsepositives:
+  - Legitimate use of port 9001
+level: medium
+```

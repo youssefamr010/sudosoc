@@ -1,0 +1,21 @@
+```yml
+title: MAILBOMB Detection
+status: test
+description: Detects MAILBOMB attacks
+author: Your Name
+date: 2024-03-16
+logsource:
+  product: network
+  service: dns
+detection:
+  selection:
+    src_ip: 142.251.36.142
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 60166
+    proto: UDP
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

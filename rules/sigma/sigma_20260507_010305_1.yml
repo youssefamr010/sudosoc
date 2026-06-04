@@ -1,0 +1,19 @@
+```yml
+title: Suspicious Network Activity
+status: test
+description: Detects suspicious network activity
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 192.168.100.5
+    src_port: 56724
+    dest_ip: 149.154.167.99
+    dest_port: 443
+    proto: tcp
+  condition: selection
+```

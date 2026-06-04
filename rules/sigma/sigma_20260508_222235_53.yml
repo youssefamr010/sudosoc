@@ -1,0 +1,23 @@
+```yml
+title: PROBE Detection
+id: ML-PROBE
+status: test
+description: Detects PROBE attacks
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: network
+  service: udp
+detection:
+  selection:
+    src_ip: 216.239.34.181
+    src_port: 443
+    dest_ip: 172.20.10.6
+    dest_port: 56360
+    proto: udp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

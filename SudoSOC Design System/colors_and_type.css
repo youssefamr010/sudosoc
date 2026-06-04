@@ -1,0 +1,140 @@
+/* ============================================================================
+   SudoSOC — Design Tokens : Colors & Type
+   AI-Powered Adaptive IDS/IPS · Security Operations Console · 2026
+   Aesthetic: tactical red-on-black SOC console. Dark, precise, live telemetry.
+   ----------------------------------------------------------------------------
+   Fonts loaded from Google Fonts CDN (all open-source / OFL):
+   Space Grotesk (display), IBM Plex Sans (UI/body), JetBrains Mono (data/code).
+   @import is here for convenience; production should self-host or <link> these.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ---------------------------------------------------------------- COLORS */
+  /* — Void / surfaces (black foundation) — */
+  --void:        #08080A;  /* deepest app background */
+  --bg:          #0B0B0E;  /* base canvas */
+  --panel:       #111115;  /* card / panel surface */
+  --panel-2:     #16161B;  /* elevated surface, inputs */
+  --panel-3:     #1D1D23;  /* hover / raised */
+  --line:        #26262E;  /* hairline borders */
+  --line-soft:   #1A1A20;  /* subtle dividers */
+
+  /* — Brand red (sampled from logo: #DB2223) — */
+  --red:         #DB2223;  /* PRIMARY brand red */
+  --red-bright:  #FF2E33;  /* active / glowing red */
+  --red-hi:      #FF5257;  /* light red, on-dark text accent */
+  --red-deep:    #8E1416;  /* pressed / deep red */
+  --red-900:     #2A0C0D;  /* red-tinted dark fill */
+  --red-glow:    rgba(219,34,35,0.45);
+  --red-wash:    rgba(219,34,35,0.10);
+
+  /* — Text — */
+  --fg:          #F4F5F7;  /* primary text */
+  --fg-2:        #C4C5CC;  /* secondary text */
+  --fg-3:        #8B8B95;  /* muted / labels */
+  --fg-4:        #5C5C66;  /* faint / disabled */
+  --fg-on-red:   #FFFFFF;  /* text on red */
+
+  /* — Semantic / status (from engine response tiers & severities) — */
+  --critical:    #FF3B40;  /* CRITICAL / AUTO_BLOCK */
+  --high:        #FF8A3D;  /* HIGH / ISOLATE  (engine #f39c12) */
+  --medium:      #FFC53D;  /* MEDIUM / RATE_LIMIT-warn */
+  --info:        #3B82F6;  /* INFO / RATE_LIMIT (engine #3498db) */
+  --safe:        #25C26E;  /* NORMAL / LOG / trusted (engine #2ecc71) */
+  --cyan:        #22D3D8;  /* encrypted-traffic / TLS accent */
+  --violet:      #8B6CEF;  /* ML / model insight accent */
+
+  /* — Status washes (10% fills for badge/row backgrounds) — */
+  --critical-wash: rgba(255,59,64,0.12);
+  --high-wash:     rgba(255,138,61,0.12);
+  --info-wash:     rgba(59,130,246,0.12);
+  --safe-wash:     rgba(37,194,110,0.12);
+  --cyan-wash:     rgba(34,211,216,0.12);
+
+  /* ---------------------------------------------------------- TYPE FAMILIES */
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-ui:      'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+
+  /* ---------------------------------------------------------- TYPE SCALE */
+  --fs-display:  56px;  --lh-display: 1.02; --ls-display: -0.02em;
+  --fs-h1:       38px;  --lh-h1:      1.08; --ls-h1:      -0.015em;
+  --fs-h2:       27px;  --lh-h2:      1.15; --ls-h2:      -0.01em;
+  --fs-h3:       20px;  --lh-h3:      1.25;
+  --fs-body:     15px;  --lh-body:    1.55;
+  --fs-sm:       13px;  --lh-sm:      1.5;
+  --fs-xs:       11px;  --lh-xs:      1.45;
+  --fs-mono:     13px;  --lh-mono:    1.5;
+  /* "kicker" — the overline/eyebrow used everywhere in the console */
+  --fs-kicker:   11px;  --ls-kicker:  0.18em;
+
+  /* ---------------------------------------------------------- WEIGHTS */
+  --w-reg: 400; --w-med: 500; --w-semi: 600; --w-bold: 700;
+
+  /* ---------------------------------------------------------- SPACING (4pt) */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px;
+
+  /* ---------------------------------------------------------- RADII */
+  --r-xs: 3px;  --r-sm: 6px;  --r-md: 10px; --r-lg: 14px;
+  --r-xl: 20px; --r-pill: 999px;
+
+  /* ---------------------------------------------------------- BORDERS */
+  --bd:        1px solid var(--line);
+  --bd-soft:   1px solid var(--line-soft);
+  --bd-red:    1px solid var(--red);
+
+  /* ---------------------------------------------------------- SHADOWS / GLOW */
+  --sh-sm:   0 1px 2px rgba(0,0,0,0.5);
+  --sh-md:   0 6px 20px rgba(0,0,0,0.55);
+  --sh-lg:   0 18px 50px rgba(0,0,0,0.65);
+  --glow-red:   0 0 0 1px rgba(219,34,35,0.5), 0 0 22px -2px var(--red-glow);
+  --glow-soft:  0 0 28px -6px var(--red-glow);
+  --inset-top:  inset 0 1px 0 rgba(255,255,255,0.04);
+
+  /* ---------------------------------------------------------- MOTION */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-snap:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 130ms; --t-med: 240ms; --t-slow: 420ms;
+}
+
+/* ============================================================================
+   SEMANTIC ELEMENT STYLES — apply on a .sds scope so cards/kits opt in.
+   ============================================================================ */
+.sds { color: var(--fg); font-family: var(--font-ui); font-size: var(--fs-body);
+       line-height: var(--lh-body); -webkit-font-smoothing: antialiased; }
+
+.sds h1, .h1 { font-family: var(--font-display); font-weight: var(--w-bold);
+  font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1);
+  color: var(--fg); margin: 0; }
+.sds h2, .h2 { font-family: var(--font-display); font-weight: var(--w-semi);
+  font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--ls-h2);
+  color: var(--fg); margin: 0; }
+.sds h3, .h3 { font-family: var(--font-display); font-weight: var(--w-semi);
+  font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--fg); margin: 0; }
+.display { font-family: var(--font-display); font-weight: var(--w-bold);
+  font-size: var(--fs-display); line-height: var(--lh-display);
+  letter-spacing: var(--ls-display); color: var(--fg); }
+
+.sds p, .p { font-family: var(--font-ui); font-size: var(--fs-body);
+  line-height: var(--lh-body); color: var(--fg-2); margin: 0; }
+
+/* kicker / eyebrow — the signature overline label */
+.kicker { font-family: var(--font-mono); font-weight: var(--w-semi);
+  font-size: var(--fs-kicker); letter-spacing: var(--ls-kicker);
+  text-transform: uppercase; color: var(--fg-3); }
+.kicker--red { color: var(--red-hi); }
+
+/* mono data — IPs, ports, timestamps, telemetry */
+.mono, .sds code, .sds kbd { font-family: var(--font-mono);
+  font-size: var(--fs-mono); line-height: var(--lh-mono);
+  color: var(--fg); font-variant-numeric: tabular-nums; }
+.metric { font-family: var(--font-mono); font-weight: var(--w-bold);
+  font-variant-numeric: tabular-nums; letter-spacing: -0.01em; color: var(--fg); }
+
+.label { font-family: var(--font-mono); font-size: var(--fs-xs);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-3); }

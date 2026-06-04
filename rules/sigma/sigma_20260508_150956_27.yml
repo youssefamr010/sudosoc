@@ -1,0 +1,24 @@
+```yml
+title: SQL Injection Attack
+status: test
+description: Detects SQL Injection attacks
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: web
+  service: http
+detection:
+  selection:
+    src_ip: 192.168.56.200
+    src_port: 55001
+    dest_ip: 192.168.56.1
+    dest_port: 80
+    protocol: tcp
+  payload_sig:
+    PAYLOAD_SIG: 'UNION SELECT'
+  condition: selection and payload_sig
+falsepositives:
+  - Unknown
+level: high
+```

@@ -1,0 +1,1 @@
+alert tcp any any -> any 4899 (msg:"SUSPICIOUS_PORT:4899 Radmin RAT Detected"; sid:1000001; rev:1; classtype:trojan-activity;)

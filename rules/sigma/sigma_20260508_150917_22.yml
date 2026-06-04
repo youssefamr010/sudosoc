@@ -1,0 +1,25 @@
+```yml
+title: Suspicious Port 3333 - Mining pool
+status: test
+description: Detects suspicious connections to port 3333, potentially related to mining pool activity
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 3333
+    proto: tcp
+  condition: selection
+fields:
+  - src_ip
+  - src_port
+  - dst_ip
+  - dst_port
+  - proto
+falsepositives:
+  - Unknown
+level: medium
+```

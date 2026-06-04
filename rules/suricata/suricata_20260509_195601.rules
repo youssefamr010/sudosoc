@@ -1,0 +1,1 @@
+alert udp any any -> any 60991 (msg:"SudoSOC: MAILBOMB"; sid:9784540; rev:1; classtype:attempted-attack; priority:1;)

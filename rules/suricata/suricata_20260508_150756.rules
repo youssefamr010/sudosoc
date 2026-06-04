@@ -1,0 +1,1 @@
+alert tcp any any -> any 6667 (msg:"SUSPICIOUS_PORT:6667 IRC/botnet C2 communication attempt"; sid:1000001; rev:1; classtype:unknown;)

@@ -1,0 +1,22 @@
+```yml
+title: ATTACK Detection
+status: test
+description: Detect ATTACK activity
+author: Your Name
+date: 2024-09-16
+modified: 2024-09-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 150.171.28.10
+    src_port: 443
+    dest_ip: 172.20.10.6
+    dest_port: 57112
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

@@ -1,0 +1,24 @@
+```yml
+title: Malware Dropper (wget)
+status: test
+description: Detects malware dropper using wget
+references:
+  - https://example.com/malware-dropper
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    c-uri|contains: http
+  condition: selection and |lookup:PAYLOAD_SIG:b'wget http'
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+  - c-uri
+falsepositives:
+  - unknown
+level: medium
+```

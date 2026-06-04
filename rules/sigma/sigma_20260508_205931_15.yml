@@ -1,0 +1,19 @@
+```yml
+title: MSCAN Detection
+status: test
+description: Detects MSCAN activity
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 192.168.56.99
+    src_port: 54409
+    dest_ip: 192.168.56.1
+    dest_port: 9
+    proto: tcp
+  condition: selection
+```

@@ -1,0 +1,23 @@
+```yml
+title: MAILBOMB Detection
+id: MAILBOMB
+status: test
+description: Detects MAILBOMB attacks
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 150.171.28.12
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 60508
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

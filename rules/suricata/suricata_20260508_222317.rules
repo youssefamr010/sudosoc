@@ -1,0 +1,1 @@
+alert udp any any -> any 64540 (msg:"PROBE Detection"; metadata:rule-category="PROBE"; metadata:rule-group="ML"; threshold: type limit, track by_src, count 1, seconds 1; sid:1000000; rev:1;)

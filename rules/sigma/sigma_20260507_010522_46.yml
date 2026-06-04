@@ -1,0 +1,22 @@
+```yml
+title: Normal ICMP Traffic
+status: test
+description: Detects normal ICMP traffic
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    src_ip: 192.168.56.1
+    src_port: 0
+    dest_ip: 192.168.56.1
+    dest_port: 3
+    proto: ICMP
+  condition: selection
+falsepositives:
+  - Normal ICMP traffic
+level: informational
+```

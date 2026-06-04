@@ -1,0 +1,1 @@
+alert tcp any any -> any 23 (msg:"SudoSOC: Port Scan"; sid:8337441; rev:1; classtype:attempted-attack; priority:1;)

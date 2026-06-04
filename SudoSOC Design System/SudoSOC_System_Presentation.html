@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SudoSOC — Startup Pitch & System Presentation</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ============================================================================
+   SudoSOC — Design Token Specifications (Presentation Theme)
+   ============================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --void:        #08080A;
+  --bg:          #0B0B0E;
+  --panel:       #111115;
+  --panel-2:     #16161B;
+  --panel-3:     #1D1D23;
+  --line:        #26262E;
+  --line-soft:   #1A1A20;
+  
+  --red:         #DB2223;
+  --red-bright:  #FF2E33;
+  --red-hi:      #FF5257;
+  --red-deep:    #8E1416;
+  --red-glow:    rgba(219,34,35,0.45);
+  --red-wash:    rgba(219,34,35,0.10);
+
+  --fg:          #F4F5F7;
+  --fg-2:        #C4C5CC;
+  --fg-3:        #8B8B95;
+  --fg-4:        #5C5C66;
+
+  --critical:    #FF3B40;
+  --high:        #FF8A3D;
+  --medium:      #FFC53D;
+  --info:        #3B82F6;
+  --safe:        #25C26E;
+  --cyan:        #22D3D8;
+  --violet:      #8B6CEF;
+
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-ui:      'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+
+  --r-xs: 3px;  --r-sm: 6px;  --r-md: 10px; --r-lg: 14px;
+  --r-xl: 20px; --r-pill: 999px;
+
+  --bd:        1px solid var(--line);
+  --bd-soft:   1px solid var(--line-soft);
+  --inset-top:  inset 0 1px 0 rgba(255,255,255,0.04);
+  
+  --glow-red:   0 0 0 1px rgba(219,34,35,0.5), 0 0 22px -2px var(--red-glow);
+  --glow-soft:  0 0 28px -6px var(--red-glow);
+  
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 130ms; --t-med: 280ms;
+}
+
+/* ============================================================================
+   GLOBAL PRESENTATION BASE STYLES
+   ============================================================================ */
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;background:var(--void);overflow:hidden;color:var(--fg);font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+#bgfx{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;}
+#bgvignette{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(70% 90% at 78% 8%,rgba(219,34,35,.08),transparent 60%);
+  animation:sds-breathe 7s var(--ease-in-out) infinite;}
+@keyframes sds-breathe{0%,100%{opacity:.6;}50%{opacity:1;}}
+#root{height:100vh;position:relative;z-index:1;display:flex;flex-direction:column;}
+
+::-webkit-scrollbar{width:7px;height:7px;}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px;}
+::-webkit-scrollbar-track{background:transparent;}
+
+.h1{font-family:var(--font-display);font-weight:700;font-size:36px;line-height:1.08;letter-spacing:-0.015em;margin:0;}
+.h2{font-family:var(--font-display);font-weight:600;font-size:23px;line-height:1.15;letter-spacing:-0.01em;margin:0;}
+.h3{font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--fg);margin:0;}
+.kicker{font-family:var(--font-mono);font-weight:600;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-3);display:inline-block;}
+.kicker--red{color:var(--red-hi);}
+.mono{font-family:var(--font-mono);font-size:12px;color:var(--fg-2);font-variant-numeric:tabular-nums;}
+
+/* Navigation & transitions */
+@keyframes sds-pulse{0%{box-shadow:0 0 0 0 rgba(219,34,35,0.45);}70%{box-shadow:0 0 0 8px transparent;}100%{box-shadow:0 0 0 0 transparent;}}
+.pulse-dot{width:8px;height:8px;border-radius:999px;background:var(--red);animation:sds-pulse 1.6s infinite;}
+
+@keyframes sds-slidein{from{opacity:0;transform:translateX(24px);}to{opacity:1;transform:none;}}
+
+.slide-grid{display:none;grid-template-columns:1.15fr 1fr;gap:28px;align-items:center;height:calc(100vh - 128px);padding:0 28px;z-index:2;}
+.slide-grid.slide-active{display:grid;}
+
+@media (max-width: 950px) {
+  .slide-grid { grid-template-columns: 1fr !important; overflow-y: auto; align-items: start; height: calc(100vh - 148px); padding: 10px 18px; }
+  .slide-visual { height: 280px !important; }
+}
+
+/* Automated progressive line-by-line slide reveal */
+.anim-line {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-line.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-content{display:flex;flex-direction:column;gap:18px;}
+
+/* Slide visual starting state & entrance transition */
+.slide-visual {
+  background: var(--panel);
+  border: var(--bd);
+  border-radius: var(--r-lg);
+  box-shadow: var(--inset-top);
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  max-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.97) translateY(8px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.slide-grid.slide-active .slide-visual {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.slide-visualimg{width:100%;height:100%;object-fit:cover;object-position:top;cursor:pointer;transition:transform 0.4s var(--ease-out);}
+.slide-visualimg:hover{transform:scale(1.025);filter:brightness(1.08);}
+
+/* Bottom controls presentation clicker bar */
+.clicker-bar{height:72px;background:rgba(11,11,14,0.72);backdrop-filter:blur(10px);WebkitBackdropFilter:blur(10px);border-top:var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10;flex:none;}
+.clicker-btn{background:var(--panel-2);border:var(--bd);color:var(--fg-2);border-radius:var(--r-sm);padding:8px 16px;font-family:var(--font-ui);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all var(--t-fast);user-select:none;}
+.clicker-btn:hover:not(:disabled){background:var(--panel-3);color:var(--fg);border-color:var(--red);box-shadow:var(--glow-soft);}
+.clicker-btn:disabled{opacity:0.25;cursor:not-allowed;}
+
+.dot-nav{display:flex;gap:6px;}
+.dot-indicator{width:8px;height:8px;border-radius:999px;background:var(--panel-3);border:1px solid var(--line);cursor:pointer;transition:all var(--t-fast);}
+.dot-indicator.active{background:var(--red);border-color:var(--red-hi);box-shadow:0 0 10px var(--red-glow);}
+
+/* Lightbox overlays */
+.lightbox-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  z-index: 99; display:none; justify-content: center; align-items: center; padding: 20px;
+}
+.lightbox-container {
+  background: var(--panel); border: var(--bd); border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg), var(--glow-soft); width: 1050px; max-width: 95vw; height: 580px; max-height: 85vh;
+  display: grid; grid-template-columns: 1.4fr 1fr; overflow: hidden; position: relative;
+}
+@media (max-width: 800px) {
+  .lightbox-container { grid-template-columns: 1fr !important; height: auto !important; max-height: 95vh; overflow-y: auto; }
+  .lightbox-media { height: 260px !important; border-right: none !important; border-bottom: var(--bd-soft); }
+}
+.lightbox-media {
+  background: #030304; border-right: var(--bd-soft); display: flex; align-items: center;
+  justify-content: center; position: relative; overflow: hidden; height: 100%;
+}
+.lightbox-media img {
+  max-width: 100%; max-height: 100%; object-fit: contain;
+}
+.lightbox-details {
+  padding: 24px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; height: 100%;
+}
+.lightbox-btn {
+  background: var(--panel-2); border: var(--bd); color: var(--fg-2); border-radius: 999px;
+  width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer;
+  transition: all var(--t-fast);
+}
+.lightbox-btn:hover {
+  background: var(--panel-3); color: var(--fg); border-color: var(--red);
+}
+
+.bullet-item { display: flex; gap: 12px; align-items: flex-start; }
+.bullet-icon { flex: none; margin-top: 3px; color: var(--red-hi); display: inline-flex; }
+</style>
+</head>
+<body class="sds">
+<canvas id="bgfx"></canvas>
+<div id="bgvignette"></div>
+
+<!-- Unified Layout root -->
+<div id="root">
+  
+  <!-- Global Top Bar Header -->
+  <header style="height: 56px; display: flex; align-items: center; gap: 18px; padding: 0 24px; border-bottom: var(--bd); background: rgba(11,11,14,0.72); backdrop-filter: blur(10px); WebkitBackdropFilter: blur(10px); flex: none; z-index: 5;">
+    <img id="brand-logo" src="SudoSOC Design System/assets/logo_wordmark_dark.png" onerror="this.src='assets/logo_wordmark_dark.png'; this.onerror=null;" alt="sudosoc" style="height: 22px;" />
+    <div style="width: 1px; height: 24px; background: var(--line);"></div>
+    <div class="kicker" style="font-size: 11px; color: var(--red-hi); letter-spacing: .15em;">SYSTEM PRESENTATION DECK</div>
+    
+    <div style="flex: 1;"></div>
+    
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span id="live-clock" style="font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); border: var(--bd); background: var(--panel-2); padding: 5px 12px; border-radius: var(--r-pill);">17:45:00 · LOCAL</span>
+    </div>
+  </header>
+
+  <!-- ============================================================================
+       SLIDE VIEWER STACK
+       ============================================================================ -->
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative;">
+    
+    <!-- Slide 1: Intro -->
+    <div class="slide-grid slide-active" id="slide-0">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Autonomous threat operations center</span>
+          <h1 class="h1" style="margin-top: 6px;">SudoSOC: Next-Gen Cyber-Defense Engine</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>A 3-layer hybrid autonomous intrusion detection and prevention system designed for 2026 enterprise scale.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Orchestrates instant Rules, Stacking Ensemble Machine Learning, and Generative GenAI to classify and block anomalous network traffic.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Brand vision: Tactical, high-density Bloomberg-style visual reading on a quiet void black backdrop.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            SudoSOC marks the end of slow, manual SOC diagnostic alerts, replacing them with a fully automated, sub-3-second edge prevention response.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual" style="text-align: center; padding: 24px; display:flex; flex-direction:column; justify-content:center;">
+        <img src="SudoSOC Design System/assets/sudosoc_logo.png" onerror="this.src='assets/sudosoc_logo.png'; this.onerror=null;" alt="SudoSOC Logo" style="height: 160px; margin-bottom: 18px; object-fit: contain;" />
+        <h3 class="h2">SUDOSOC Cyber-Defense</h3>
+        <span class="kicker" style="margin-top: 6px;">Next-gen network operations center</span>
+      </div>
+    </div>
+
+    <!-- Slide 2: Challenge -->
+    <div class="slide-grid" id="slide-1">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">The Visual Transformation</span>
+          <h1 class="h1" style="margin-top: 6px;">Design Objective: Streamlit to Tactical Console</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Translates functional local Python dashboards into high-impact visual design tokens (Void surfaces #08080A to Panel laddering).</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Establishes a single visual highlight brand red color (#DB2223) mapped directly from your brand wordmark.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Swaps browser defaults and inconsistent emojis for Space Grotesk displays, JetBrains Mono data nodes, and linear stroke Lucide icons.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Cohesive visual systems establish operational authority and prevent cognitive noise under high-pressure server attack events.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; padding: 20px;">
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 14px;">
+          <span class="kicker kicker--red">Brand colors</span>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-size: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: var(--red);"></span><span>#DB2223 Red</span></div>
+            <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: var(--void); border: var(--bd);"></span><span>#08080A Void</span></div>
+            <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: var(--panel-2);"></span><span>#16161B Panel</span></div>
+          </div>
+        </div>
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 14px;">
+          <span class="kicker kicker--red">Typography</span>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-size: 12px;">
+            <div>Display: <b>Space Grotesk</b></div>
+            <div>UI Body: <b>IBM Plex Sans</b></div>
+            <div>Data Mono: <b>JetBrains Mono</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: 3-Layer Diagram -->
+    <div class="slide-grid" id="slide-2">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Multi-layered inspection</span>
+          <h1 class="h1" style="margin-top: 6px;">The 3-Layer Hybrid Threat Detection Architecture</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Layer 1 (Signatures): Ultra-fast deterministic rule check mapping ports heuristics and Zeek/Suricata alerts.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Layer 2 (Ensemble ML Stacking): Advanced stacking model (XGBoost + Random Forest) providing 98.8% classification precision.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Layer 3 (GenAI Analyst): Local pipeline triggering Qwen 2.5 / Llama 3.3 analyst logs, MITRE mappings, and auto-generated rules.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Combining signature speed, statistical machine learning weights, and linguistic LLM reasoning achieves defense-in-depth.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual" style="display: flex; flex-direction: column; gap: 10px; width: 100%; padding: 24px; justify-content:center;">
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 10px 14px; border-left: 3px solid var(--fg-3); display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div>
+            <h4 style="font-size: 13px; margin: 0; color: var(--fg);">Layer 1 · Rules & Signatures</h4>
+            <span style="font-size: 11px; color: var(--fg-3);">Stateless deterministic checks</span>
+          </div>
+          <span class="mono" style="background: var(--panel-3); padding: 3px 8px; border-radius: 3px;">01</span>
+        </div>
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 10px 14px; border-left: 3px solid var(--red-hi); display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div>
+            <h4 style="font-size: 13px; margin: 0; color: var(--fg);">Layer 2 · ML Ensemble Stack</h4>
+            <span style="font-size: 11px; color: var(--fg-3);">XGBoost + RF Stacking Model</span>
+          </div>
+          <span class="mono" style="background: var(--panel-3); padding: 3px 8px; border-radius: 3px;">02</span>
+        </div>
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 10px 14px; border-left: 3px solid var(--violet); display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div>
+            <h4 style="font-size: 13px; margin: 0; color: var(--fg);">Layer 3 · GenAI Llama Summary</h4>
+            <span style="font-size: 11px; color: var(--fg-3);">Dynamic MITRE maps & alerts</span>
+          </div>
+          <span class="mono" style="background: var(--panel-3); padding: 3px 8px; border-radius: 3px;">03</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Confusion Matrix -->
+    <div class="slide-grid" id="slide-3">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Layer 2 Performance metrics</span>
+          <h1 class="h1" style="margin-top: 6px;">Stacking Classifier Validation: XGBoost Confusion Matrix</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Evaluates the mathematical precision of our Layer 2 XGBoost stacking baseline across 102,398 network flow samples.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Identifies 16,910 true positive attacks and classifies 84,294 normal benign network operations flawlessly.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Limits system false positives to a minimal 289 instances, ensuring high trust and preventing accidental server lockdown.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            The stacking classifier achieves a high 98.8% recall. Out of thousands of active attacks, the failure leak rate is confined to ~0.5%.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual">
+        <img src="sudosoc_Pics/Screenshot (1708).png" onerror="this.src='../sudosoc_Pics/Screenshot (1708).png'; this.onerror=null;" alt="XGBoost Confusion Matrix" class="slide-visualimg" onclick="openLightbox(3)" />
+        <span style="position: absolute; left: 12px; bottom: 12px; background: rgba(8,8,10,0.85); font-family: var(--font-mono); font-size: 9.5px; color: var(--fg-3); padding: 4px 8px; border-radius: 3px; border: var(--bd-soft); pointer-events: none;">
+          Model Confusion Matrix Log (real_source: confusion_matrix.png)
+        </span>
+      </div>
+    </div>
+
+    <!-- Slide 5: Feature Importance -->
+    <div class="slide-grid" id="slide-4">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Telemetry Feature Importance</span>
+          <h1 class="h1" style="margin-top: 6px;">Diagnostic Feature Importances & Scapy Interfaces</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Ranks flow characteristics by their influence weights: destination port (dst_port) leads with a high 33% importance score.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Size metrics, including packet-to-byte-ratio (31%) and bytes-per-packet (8%), populate the high-influence boundaries.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Integrates with workspace compiler hooks (ids_check.py) confirming Python Scapy, Numpy, XGBoost, and Joblib are fully bound.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Connection metadata dictates over 60% of classifier decisions. This enables SudoSOC to spot suspicious TLS/SSL reverse shells without payload decryption.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual">
+        <img src="sudosoc_Pics/Screenshot (1709).png" onerror="this.src='../sudosoc_Pics/Screenshot (1709).png'; this.onerror=null;" alt="Top 15 Feature Importances" class="slide-visualimg" onclick="openLightbox(4)" />
+        <div style="position: absolute; top: 12px; right: 12px; width: 45%; height: 85%; border: 2px solid var(--red); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-lg); z-index: 5;">
+          <img src="sudosoc_Pics/Screenshot (1710).png" onerror="this.src='../sudosoc_Pics/Screenshot (1710).png'; this.onerror=null;" alt="Workspace Terminal Check" class="slide-visualimg" onclick="openLightbox(4)" />
+        </div>
+        <span style="position: absolute; left: 12px; bottom: 12px; background: rgba(8,8,10,0.85); font-family: var(--font-mono); font-size: 9.5px; color: var(--fg-3); padding: 4px 8px; border-radius: 3px; border: var(--bd-soft); pointer-events: none;">
+          Top 15 Feature Weights & Local Interface Checks (sudosoc_Pics)
+        </span>
+      </div>
+    </div>
+
+    <!-- Slide 6: Streamlit Alerts -->
+    <div class="slide-grid" id="slide-5">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Live real-time monitoring</span>
+          <h1 class="h1" style="margin-top: 6px;">Live Operations Console: Streamlit Dashboard Live alerts</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Active visual representation of the product UI running on port 8501, aggregating network packets dynamically.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Logs flow records (timestamp, ports, protocol) and flags attack classes (including MAILBOMB, EXPLOIT, and GUESS_PASSWORD).</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Live telemetry metrics reveal Recent Alerts (200), Blocked IPS (25), and Critical Alerts (14) at a single glance.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Converts raw JSONL sniffer logs into actionable threat telemetry, demonstrating real-time prevention blocks in under 3 seconds.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual">
+        <img src="sudosoc_Pics/Screenshot (1711).png" onerror="this.src='../sudosoc_Pics/Screenshot (1711).png'; this.onerror=null;" alt="Live alerts dashboard" class="slide-visualimg" onclick="openLightbox(5)" />
+        <span style="position: absolute; left: 12px; bottom: 12px; background: rgba(8,8,10,0.85); font-family: var(--font-mono); font-size: 9.5px; color: var(--fg-3); padding: 4px 8px; border-radius: 3px; border: var(--bd-soft); pointer-events: none;">
+          Live Operations Alert Feed Console (Streamlit Port 8501)
+        </span>
+      </div>
+    </div>
+
+    <!-- Slide 7: Retraining and Drift -->
+    <div class="slide-grid" id="slide-6">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Adaptive retraining engine</span>
+          <h1 class="h1" style="margin-top: 6px;">Continuous Online Learning & Concept Drift Monitor</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Integrates drift monitoring tools, tracking baseline drift indexes (KL-Divergence) dynamically against 1.15 million trained samples.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Concept drift is validated within thresholds (0.04 drift value vs 0.15 automatic incremental retrain trigger).</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Queues pending analyst feedback logs (380 samples) allowing human-in-the-loop tags to adjust stacking models live.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            SudoSOC mitigates baseline decay. The continuous online loop guarantees the classifier adapts to changing signature techniques over time.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual">
+        <img src="sudosoc_Pics/Screenshot (1712).png" onerror="this.src='../sudosoc_Pics/Screenshot (1712).png'; this.onerror=null;" alt="Concept Drift Retraining logs" class="slide-visualimg" onclick="openLightbox(6)" />
+        <span style="position: absolute; left: 12px; bottom: 12px; background: rgba(8,8,10,0.85); font-family: var(--font-mono); font-size: 9.5px; color: var(--fg-3); padding: 4px 8px; border-radius: 3px; border: var(--bd-soft); pointer-events: none;">
+          Online Learning & Concept Drift Telemetry (sudosoc_Pics)
+        </span>
+      </div>
+    </div>
+
+    <!-- Slide 8: Interactive UI highlight -->
+    <div class="slide-grid" id="slide-7">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">Interactive Prototyping</span>
+          <h1 class="h1" style="margin-top: 6px;">Deliverables Highlight: Premium Interactive Web Console</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>A comprehensive, high-fidelity click-through console built and delivered directly inside your workspace folder.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Overview Page: Live alert stream feed with a sweeping telemetry radar, response donut chart, and detail overlays.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Slide-in Details Drawer: Auto-types Llama threat summaries, maps MITRE ATT&CK techniques, and triggers mock iptables rules.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Interactive mockups allow rapid stakeholder evaluations and early interface validation before production software compiles.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; padding: 20px; align-items:center;">
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 12px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="color:var(--red-hi);display:inline-flex;"><i data-lucide="check-circle" style="width:13px;height:13px;"></i></span>
+            <span style="font-size: 13px; font-weight: 600; color: var(--fg);">Overview page</span>
+          </div>
+          <span style="font-size: 11.5px; color: var(--fg-3);">Alert streams & sweeps</span>
+        </div>
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 12px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="color:var(--red-hi);display:inline-flex;"><i data-lucide="check-circle" style="width:13px;height:13px;"></i></span>
+            <span style="font-size: 13px; font-weight: 600; color: var(--fg);">Flow analytics</span>
+          </div>
+          <span style="font-size: 11.5px; color: var(--fg-3);">Feature volume graphs</span>
+        </div>
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 12px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="color:var(--red-hi);display:inline-flex;"><i data-lucide="check-circle" style="width:13px;height:13px;"></i></span>
+            <span style="font-size: 13px; font-weight: 600; color: var(--fg);">ML predict tool</span>
+          </div>
+          <span style="font-size: 11.5px; color: var(--fg-3);">Confidence calibrators</span>
+        </div>
+        <div style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 12px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="color:var(--red-hi);display:inline-flex;"><i data-lucide="check-circle" style="width:13px;height:13px;"></i></span>
+            <span style="font-size: 13px; font-weight: 600; color: var(--fg);">Adaptive intel</span>
+          </div>
+          <span style="font-size: 11.5px; color: var(--fg-3);">MITRE ATT&CK tabs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Directory Map -->
+    <div class="slide-grid" id="slide-8">
+      <div class="slide-content">
+        <div class="anim-line">
+          <span class="kicker kicker--red">System Asset Map</span>
+          <h1 class="h1" style="margin-top: 6px;">Deployments Summary & Workspace Files Mapping</h1>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14.5px; color: var(--fg-2); line-height: 1.6;">
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>All deliverables are packaged, modularized, and cleanly organized in your workspace folders for instant access.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Design tokens are compiled in colors_and_type.css, asset logos in SudoSOC Design System/assets, and specimens in preview/.</span>
+          </div>
+          <div class="bullet-item anim-line">
+            <span class="bullet-icon"><i data-lucide="check-circle-2" style="width:16px;height:16px;"></i></span>
+            <span>Interactive React console kits live in ui_kits/console/ and standalone presenters in SudoSOC_Console_Standalone.html.</span>
+          </div>
+        </div>
+        <div class="anim-line" style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px; box-shadow: var(--glow-soft);">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 5px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="zap" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Presentation Takeaway</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Fully documented and structured. Standardized layout systems ensure other security developers can build upon this work smoothly.
+          </p>
+        </div>
+      </div>
+      <div class="slide-visual" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; align-items: stretch; justify-content: flex-start;">
+        <span class="kicker kicker--red">WORKSPACE ARCHITECTURE DIRECTORY</span>
+        <div class="mono" style="background: var(--panel-2); border: var(--bd); border-radius: var(--r-md); padding: 12px; font-size: 11.5px; line-height: 1.6; overflow-y: auto; height: 100%; max-height: 320px; text-align: left; width: 100%;">
+          <div>├── <span style="color: var(--fg);">SudoSOC Design System/</span></div>
+          <div>│   ├── <span style="color: var(--red-hi);">colors_and_type.css</span> (styling tokens)</div>
+          <div>│   ├── <span style="color: var(--fg);">assets/</span> (brand logos and wordmarks)</div>
+          <div>│   ├── <span style="color: var(--fg);">preview/</span> (19 individual spec cards)</div>
+          <div>│   └── <span style="color: var(--fg);">ui_kits/console/</span> (modular React UI)</div>
+          <div>├── <span style="color: var(--fg);">SudoSOC_Console_Standalone.html</span> (standalone)</div>
+          <div>├── <span style="color: var(--fg);">SudoSOC_System_Presentation.html</span> (pitch deck)</div>
+          <div>├── <span style="color: var(--fg);">start_console.py</span> (silent TCP server)</div>
+          <div>└── <span style="color: var(--fg);">HOW_TO_OPEN_DESIGN_SYSTEM.md</span> (guide)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================================
+       BOTTOM PRESENTATION CONTROLLER BAR
+       ============================================================================ -->
+  <footer class="clicker-bar">
+    <button class="clicker-btn" id="prev-btn" onclick="prevSlide()" disabled>
+      <span style="display:inline-flex;margin-right:4px;"><i data-lucide="chevron-left" style="width:16px;height:16px;"></i></span>Prev Slide
+    </button>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div class="dot-nav" id="dot-nav">
+        <!-- Dots injected by JS -->
+      </div>
+      <span class="mono" id="slide-num" style="font-size: 11px; color: var(--fg-4);">SLIDE 1 OF 9</span>
+    </div>
+
+    <button class="clicker-btn" id="next-btn" onclick="nextSlide()">
+      Next Slide<span style="display:inline-flex;margin-left:4px;"><i data-lucide="chevron-right" style="width:16px;height:16px;"></i></span>
+    </button>
+  </footer>
+
+</div>
+
+<!-- ============================================================================
+     HIGH-FIDELITY DETAIL OVERLAY LIGHTBOX (HUD overlay)
+     ============================================================================ -->
+<div class="lightbox-backdrop" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-container" onclick="event.stopPropagation()">
+    <div class="lightbox-media" id="lightbox-media">
+      <!-- Image injected by JS -->
+    </div>
+    <div class="lightbox-details">
+      <header style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: var(--bd-soft); padding-bottom: 14px;">
+        <div>
+          <span class="kicker kicker--red" id="lightbox-tag">Model Metrics</span>
+          <h3 class="h1" id="lightbox-title" style="font-size: 22px; margin-top: 4px; color: var(--fg);">XGBoost Confusion Matrix</h3>
+        </div>
+        <button class="lightbox-btn" onclick="closeLightbox()" style="flex: none;">
+          <span style="display:inline-flex;"><i data-lucide="x" style="width:16px;height:16px;"></i></span>
+        </button>
+      </header>
+      <div style="display: flex; flex-direction: column; gap: 16px; flex: 1; overflow-y: auto; padding-right: 4px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 6px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="info" style="width:14px;height:14px;"></i></span>
+            <span class="kicker">Source Significance</span>
+          </div>
+          <p id="lightbox-significance" style="font-size: 13.5px; line-height: 1.6; color: var(--fg-2); margin: 0;">
+            Description details.
+          </p>
+        </div>
+        <div style="background: var(--red-wash); border: 1px solid rgba(219,34,35,0.25); border-radius: var(--r-md); padding: 14px;">
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 6px;">
+            <span style="color:var(--red-hi);display:inline-flex;margin-right:6px;"><i data-lucide="check-circle-2" style="width:14px;height:14px;"></i></span>
+            <span class="kicker kicker--red">Core Takeaway</span>
+          </div>
+          <p id="lightbox-takeaway" style="font-size: 13px; line-height: 1.5; color: var(--fg); font-weight: 500; margin: 0;">
+            Takeaway details.
+          </p>
+        </div>
+      </div>
+      <footer style="border-top: var(--bd-soft); padding-top: 14px; display: flex; justify-content: flex-end;">
+        <button class="clicker-btn" onclick="closeLightbox()">Close Overlay</button>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================================
+     VANILLA DECK NAVIGATION LOGIC (CORS-free, 100% stable local offline execution)
+     ============================================================================ -->
+<script>
+/* Slide database mirroring */
+const SLIDES_DATA = [
+  {
+    id: 0,
+    kicker: "Autonomous threat operations center",
+    title: "SudoSOC: Next-Gen Cyber-Defense Engine",
+    takeaway: "SudoSOC marks the end of slow, manual SOC diagnostic alerts, replacing them with a fully automated, sub-3-second edge prevention response.",
+    visualType: "logo"
+  },
+  {
+    id: 1,
+    kicker: "The Visual Transformation",
+    title: "Design Objective: Streamlit to Tactical Console",
+    takeaway: "Cohesive visual systems establish operational authority and prevent cognitive noise under high-pressure server attack events.",
+    visualType: "tokens"
+  },
+  {
+    id: 2,
+    kicker: "Multi-layered inspection",
+    title: "The 3-Layer Hybrid Threat Detection Architecture",
+    takeaway: "Combining signature speed, statistical machine learning weights, and linguistic LLM reasoning achieves defense-in-depth.",
+    visualType: "diagram"
+  },
+  {
+    id: 3,
+    kicker: "Model Validation metrics",
+    title: "Stacking Classifier Validation: XGBoost Confusion Matrix",
+    tag: "Model Metrics",
+    filename: "Screenshot (1708).png",
+    significance: "This confusion matrix validates the extreme precision of our Layer 2 stacking model. It highlights that out of 102,398 flows, the system successfully identified 16,910 true positive attacks and correctly mapped 84,294 benign normal operations, yielding a remarkable recall rate of 98.8%. Crucially, false positives were restricted to a minimal 289 cases, ensuring high operational trust and preventing accidental network lockdowns.",
+    takeaway: "The stacking classifier achieves a high 98.8% recall. Out of thousands of active attacks, the failure leak rate is confined to ~0.5%."
+  },
+  {
+    id: 4,
+    kicker: "Telemetry Feature Importance",
+    title: "Diagnostic Feature Importances & Scapy Interfaces",
+    tag: "Feature Weights",
+    filename: "Screenshot (1709).png",
+    filename2: "Screenshot (1710).png",
+    significance: "This chart identifies the mathematical features that hold the highest weights during network classification. The destination port (dst_port) ranks highest with an importance score of ~33%, immediately followed by the packet_to_byte_ratio at ~31%. Other attributes such as packet size (bytes_per_packet), common destination mapping (dst_is_common), and rate metrics populate the mid-tier. The companion check shows compiler hooks (ids_check.py) confirming Scapy loops are fully bound.",
+    takeaway: "Connection metadata dictates over 60% of classifier decisions. This enables SudoSOC to spot suspicious TLS/SSL reverse shells without payload decryption."
+  },
+  {
+    id: 5,
+    kicker: "Live real-time monitoring",
+    title: "Live Operations Console: Streamlit Dashboard Live alerts",
+    tag: "Streamlit UI",
+    filename: "Screenshot (1711).png",
+    significance: "This screenshot represents the actual running product dashboard during a real network simulation. It aggregates alerts from ids_alerts.jsonl dynamically. The header metrics indicate that out of 200 recent alerts, 25 malicious sources were automatically blocked, and 14 were flagged as high-risk. The alert feed logs detailed flow columns including threat classes (like MAILBOMB, EXPLOIT, and GUESS_PASSWORD), source ports, and model confidence scores.",
+    takeaway: "Converts raw JSONL sniffer logs into actionable threat telemetry, demonstrating real-time prevention blocks in under 3 seconds."
+  },
+  {
+    id: 6,
+    kicker: "Adaptive retraining engine",
+    title: "Continuous Online Learning & Concept Drift Monitor",
+    tag: "Streamlit UI",
+    filename: "Screenshot (1712).png",
+    significance: "This dashboard section showcases SudoSOC's adaptive retraining capabilities. It shows the Concept Drift Monitor indicating that the system baseline remains 'within threshold' (drift level 0.04 vs 0.15 retrain trigger). The metrics log details a baseline trained on over 1.15 million packets, with 380 pending feedback samples queued for model tuning. The tabular view shows the online learning feedback loop waiting for analyst labels.",
+    takeaway: "SudoSOC mitigates baseline decay. The continuous online loop guarantees the classifier adapts to changing signature techniques over time."
+  },
+  {
+    id: 7,
+    kicker: "Interactive Prototyping",
+    title: "Deliverables Highlight: Premium Interactive Web Console",
+    takeaway: "Interactive mockups allow rapid stakeholder evaluations and early interface validation before production software compiles.",
+    visualType: "prototype"
+  },
+  {
+    id: 8,
+    kicker: "System Asset Map",
+    title: "Deployments Summary & Workspace Files Mapping",
+    takeaway: "Fully documented and structured. Standardized layout systems ensure other security developers can build upon this work smoothly.",
+    visualType: "code"
+  }
+];
+
+let activeSlide = 0;
+const slidesCount = SLIDES_DATA.length;
+
+/* Initialize dot indicators */
+const dotNav = document.getElementById('dot-nav');
+for (let i = 0; i < slidesCount; i++) {
+  const dot = document.createElement('span');
+  dot.className = 'dot-indicator' + (i === 0 ? ' active' : '');
+  dot.onclick = () => showSlide(i);
+  dotNav.appendChild(dot);
+}
+
+const dots = document.querySelectorAll('.dot-indicator');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const slideNum = document.getElementById('slide-num');
+
+/* Progressive Line-by-Line animation sequencers */
+let animTimeouts = [];
+
+function clearAnimTimeouts() {
+  animTimeouts.forEach(t => clearTimeout(t));
+  animTimeouts = [];
+}
+
+function triggerSlideAnimations(slideElement) {
+  clearAnimTimeouts();
+  const lines = slideElement.querySelectorAll('.anim-line');
+  
+  // Hide all elements initially
+  lines.forEach(l => l.classList.remove('show'));
+  
+  // Sequentially delay each reveal by 2000ms (2s)
+  lines.forEach((l, idx) => {
+    const t = setTimeout(() => {
+      l.classList.add('show');
+    }, idx * 2000);
+    animTimeouts.push(t);
+  });
+}
+
+function showSlide(idx) {
+  const currentGrid = document.getElementById(`slide-${activeSlide}`);
+  const nextGrid = document.getElementById(`slide-${idx}`);
+  
+  currentGrid.classList.remove('slide-active');
+  nextGrid.classList.add('slide-active');
+  
+  // Re-trigger sequential reveal animations starting fresh
+  triggerSlideAnimations(nextGrid);
+  
+  // Update indicators
+  dots[activeSlide].classList.remove('active');
+  dots[idx].classList.add('active');
+  
+  activeSlide = idx;
+  
+  // Update buttons
+  prevBtn.disabled = (idx === 0);
+  nextBtn.disabled = (idx === slidesCount - 1);
+  slideNum.textContent = `SLIDE ${idx + 1} OF ${slidesCount}`;
+}
+
+function nextSlide() {
+  if (activeSlide < slidesCount - 1) {
+    showSlide(activeSlide + 1);
+  }
+}
+
+function prevSlide() {
+  if (activeSlide > 0) {
+    showSlide(activeSlide - 1);
+  }
+}
+
+/* Keyboard remote navigation controls */
+window.addEventListener('keydown', e => {
+  if (e.key === "ArrowRight" || e.key === " ") {
+    e.preventDefault();
+    nextSlide();
+  }
+  if (e.key === "ArrowLeft") {
+    e.preventDefault();
+    prevSlide();
+  }
+  if (e.key === "Escape") {
+    closeLightbox();
+  }
+});
+
+/* Clock ticking loop */
+setInterval(() => {
+  document.getElementById('live-clock').textContent = new Date().toLocaleTimeString('en-GB') + " · LOCAL";
+}, 1000);
+
+/* ============================================================================
+   LIGHTBOX SLIDESHOW LOGIC
+   ============================================================================ */
+const lightbox = document.getElementById('lightbox');
+const lbMedia = document.getElementById('lightbox-media');
+const lbTag = document.getElementById('lightbox-tag');
+const lbTitle = document.getElementById('lightbox-title');
+const lbSignificance = document.getElementById('lightbox-significance');
+const lbTakeaway = document.getElementById('lightbox-takeaway');
+
+function openLightbox(idx) {
+  const d = SLIDES_DATA[idx];
+  
+  // construct self-healing image tags
+  let imgHtml = `<img src="sudosoc_Pics/${d.filename}" onerror="this.src='../sudosoc_Pics/${d.filename}'; this.onerror=null;" alt="${d.title}" />`;
+  if (d.filename2) {
+    imgHtml += `<div style="position: absolute; top: 12px; right: 12px; width: 45%; height: 85%; border: 2px solid var(--red); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-lg); z-index: 5;">
+      <img src="sudosoc_Pics/${d.filename2}" onerror="this.src='../sudosoc_Pics/${d.filename2}'; this.onerror=null;" alt="${d.title}" />
+    </div>`;
+  }
+  
+  lbMedia.innerHTML = imgHtml;
+  lbTag.textContent = d.tag;
+  lbTitle.textContent = d.title;
+  lbSignificance.textContent = d.significance;
+  lbTakeaway.textContent = d.takeaway;
+  
+  lightbox.style.display = 'flex';
+  
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function closeLightbox() {
+  lightbox.style.display = 'none';
+}
+
+/* ============================================================================
+   TACTICAL BACKGROUND PARTICLE MATRIX ENGINE
+   ============================================================================ */
+function initBackgroundFX() {
+  const canvas = document.getElementById('bgfx');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+  
+  const particles = [];
+  const particleCount = 45;
+  
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      size: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.4 + 0.1
+    });
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw fine technological dot grid in the background
+    ctx.strokeStyle = 'rgba(219, 34, 35, 0.025)';
+    ctx.lineWidth = 1;
+    const gridSize = 45;
+    for (let x = 0; x < width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+    
+    // Update and draw particles
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      // Boundary wraps
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+      
+      ctx.fillStyle = `rgba(219, 34, 35, ${p.alpha})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    
+    // Draw subtle connection lines
+    ctx.strokeStyle = 'rgba(219, 34, 35, 0.04)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    
+    requestAnimationFrame(draw);
+  }
+  
+  draw();
+}
+
+// Initialize on page load
+window.addEventListener('load', () => {
+  initBackgroundFX();
+  triggerSlideAnimations(document.getElementById('slide-0'));
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+});
+</script>
+</body>
+</html>

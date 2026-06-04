@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:24px 26px;display:flex;flex-direction:column;gap:16px;}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .badge{font-family:var(--font-mono);font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+         padding:5px 10px;border-radius:var(--r-xs);display:inline-flex;align-items:center;gap:7px;border:1px solid transparent;}
+  .dot{width:7px;height:7px;border-radius:999px;}
+  .crit{background:var(--critical-wash);color:#FF6B6F;border-color:rgba(255,59,64,.3);}
+  .high{background:var(--high-wash);color:#FFA266;border-color:rgba(255,138,61,.3);}
+  .med{background:rgba(255,197,61,.12);color:#FFD466;border-color:rgba(255,197,61,.3);}
+  .info{background:var(--info-wash);color:#7FAcF8;border-color:rgba(59,130,246,.3);}
+  .safe{background:var(--safe-wash);color:#5AD494;border-color:rgba(37,194,110,.3);}
+  .lab{font-family:var(--font-mono);font-size:10px;color:var(--fg-4);letter-spacing:.08em;}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kicker kicker--red">Severity Badges</div>
+  <div class="row">
+    <span class="badge crit"><span class="dot" style="background:#FF3B40"></span>Critical</span>
+    <span class="badge high"><span class="dot" style="background:#FF8A3D"></span>High</span>
+    <span class="badge med"><span class="dot" style="background:#FFC53D"></span>Medium</span>
+    <span class="badge info"><span class="dot" style="background:#3B82F6"></span>Low</span>
+    <span class="badge safe"><span class="dot" style="background:#25C26E"></span>Normal</span>
+  </div>
+  <div class="lab">SEVERITY — wash fill + tinted text + status dot</div>
+  <div class="row">
+    <span class="badge crit">SYN Flood</span>
+    <span class="badge high">Port Scan</span>
+    <span class="badge info">Brute Force</span>
+    <span class="badge safe">Trusted Agency</span>
+  </div>
+  <div class="lab">ATTACK-CLASS TAGS</div>
+</div></body></html>

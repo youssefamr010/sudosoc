@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SudoSoc - Security Platform Documentation</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 40px; }
+        h1, h2, h3 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-family: 'Courier New', Courier, monospace; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; border-left: 5px solid #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #2c3e50; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .status-done { color: #27ae60; font-weight: bold; }
+        .status-progress { color: #f39c12; font-weight: bold; }
+        .badge { display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
+        .badge-done { background: #eafaf1; color: #27ae60; }
+        .badge-progress { background: #fef5e7; color: #f39c12; }
+    </style>
+</head>
+<body>
+    <h1>SudoSoc - AI-Powered Security Platform</h1>
+    <p><strong>Version:</strong> 2.0 (Stacking Ensemble Edition) | <strong>Status:</strong> Production Ready</p>
+
+    <h2>1. Project Overview</h2>
+    <p>SudoSoc is an enterprise-grade AI-powered Intrusion Detection and Prevention System (IDS/IPS). It leverages behavioral traffic analysis and machine learning to secure network environments.</p>
+
+    <h2>2. Features Matrix</h2>
+    <ul>
+        <li><strong>Hybrid Detection:</strong> Heuristics + Stacking Ensemble (RF + XGB).</li>
+        <li><strong>Encrypted Anomaly Detection:</strong> Entropy-based analysis of TLS/SSL streams.</li>
+        <li><strong>LLM Threat Verification:</strong> Natural language explanations via HuggingFace.</li>
+        <li><strong>Active Response:</strong> Automated firewall blocking using <code>netsh</code>.</li>
+        <li><strong>Modern Dashboard:</strong> Real-time traffic visualization with Streamlit.</li>
+    </ul>
+
+    <h2>3. File Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>File Name</th>
+                <th>Purpose</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td><code>realtime_ids.py</code></td><td>Main sniffing and blocking engine.</td><td><span class="status-done">DONE</span></td></tr>
+            <tr><td>2</td><td><code>ids_ips_trainer.py</code></td><td>Stacking Ensemble ML pipeline.</td><td><span class="status-done">DONE</span></td></tr>
+            <tr><td>3</td><td><code>dashboard.py</code></td><td>Streamlit monitoring UI.</td><td><span class="status-done">DONE</span></td></tr>
+            <tr><td>4</td><td><code>llm_analyzer.py</code></td><td>AI verification layer.</td><td><span class="status-done">DONE</span></td></tr>
+            <tr><td>5</td><td><code>ids_check.py</code></td><td>Environment diagnostic tool.</td><td><span class="status-done">DONE</span></td></tr>
+            <tr><td>6</td><td><code>process_unsw.py</code></td><td>Dataset normalization script.</td><td><span class="status-done">DONE</span></td></tr>
+        </tbody>
+    </table>
+
+    <h2>4. Technical Features & Implementation</h2>
+    <h3>4.1 Behavioral Generalization</h3>
+    <p>We have removed raw IP addresses from the training process. The model now identifies attacks based on <strong>flow density, packet-to-byte ratios, and port behavior</strong>, making it resilient to new IP ranges.</p>
+    
+    <h3>4.2 Stacking Ensemble</h3>
+    <p>The system uses a Stacking Classifier with a Logistic Regression meta-learner to combine the strengths of Random Forest and XGBoost, achieving superior accuracy on complex datasets.</p>
+
+    <h2>5. Project Progress Tracker</h2>
+    <h3>✅ Completed</h3>
+    <ol>
+        <li>Implementation of Stacking Ensemble Classifier.</li>
+        <li>Elimination of Confidence Plateaus.</li>
+        <li>Removal of IP-overfitting features.</li>
+        <li>Elimination of Confidence Plateaus.</li>
+        <li>Fixed HuggingFace API connectivity (Zephyr-7B).</li>
+        <li>Automated netsh firewall rule management.</li>
+    </ol>
+    <h3>⏳ In Progress</h3>
+    <ul>
+        <li><strong>Online Learning Feedback Loop:</strong> Adaptive retraining on local traffic.</li>
+        <li><strong>Protocol Expansion:</strong> Deep ICMP/IPv6 specialized patterns.</li>
+    </ul>
+
+    <h2>6. How to Use</h2>
+    <pre>
+# 1. Train the model
+python ids_ips_trainer.py
+
+# 2. Start the IDS (Admin required)
+python realtime_ids.py
+
+# 3. View the Dashboard
+streamlit run dashboard.py
+    </pre>
+
+    <footer style="margin-top: 50px; font-size: 0.8em; color: #777;">
+        Generated by Antigravity AI for SudoSoc Platform.
+    </footer>
+</body>
+</html>

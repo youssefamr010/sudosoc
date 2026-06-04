@@ -1,0 +1,1 @@
+alert tcp any any -> any 4444 (msg:"SUSPICIOUS_PORT:4444 Metasploit default listener detected"; sid:1000001; rev:1; classtype:attempted-recon;)

@@ -1,0 +1,1 @@
+alert udp any any -> any 65422 (msg:"MAILBOMB Attack"; sid:1000001; rev:1; metadata:ML:MAILBOMB@0.96[m=0.955][ADAPTIVE];)

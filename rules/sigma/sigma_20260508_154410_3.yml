@@ -1,0 +1,25 @@
+```yml
+title: EXPLOITS Detection
+status: test
+description: Detects EXPLOITS attacks
+logsource:
+  product: network
+  service: dhcp
+detection:
+  selection:
+    src_ip: 0.0.0.0
+    src_port: 68
+    dest_ip: 255.255.255.255
+    dest_port: 67
+    proto: udp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: medium
+```

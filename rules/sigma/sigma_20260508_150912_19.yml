@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 9050 - Tor SOCKS proxy
+id: SUSPICIOUS_PORT_9050
+status: test
+description: Detects suspicious connections to port 9050, commonly used by Tor SOCKS proxy
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 9050
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dst_ip
+- dst_port
+- proto
+falsepositives:
+- Legitimate use of port 9050
+level: medium
+```

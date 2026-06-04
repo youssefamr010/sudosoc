@@ -1,0 +1,1 @@
+alert tcp any any -> any 59662 (msg:"SIG:Path Traversal"; content:"../"; depth:2; sid:1000001; rev:1;)

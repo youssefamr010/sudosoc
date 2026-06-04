@@ -1,0 +1,1 @@
+alert tcp any any -> any 15 (msg:"PORT_SCAN 15 ports/0.9s"; threshold: type both, track by_dst, count 15, seconds 0.9; sid:1000001; rev:1; metadata:rule_type portscan;)

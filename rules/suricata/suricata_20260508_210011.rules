@@ -1,0 +1,1 @@
+alert tcp any any -> any 17 (msg:"MSCAN Detection"; metadata:rule ML:MSCAN@0.77[m=0.582][ADAPTIVE]; sid:1000000; rev:1; classtype:attempted-recon;)

@@ -1,0 +1,1 @@
+alert icmp any any -> any 8 (msg:"SudoSOC: EXPLOITS"; sid:3193838; rev:1; classtype:attempted-attack; priority:1;)

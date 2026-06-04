@@ -1,0 +1,1 @@
+alert tcp any any -> any 50681 (msg:"SudoSOC: BACK"; sid:5628701; rev:1; classtype:attempted-attack; priority:1;)

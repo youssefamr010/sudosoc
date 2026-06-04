@@ -1,0 +1,22 @@
+```yml
+title: EXPLOIT Detection
+status: test
+description: Detects EXPLOIT attacks
+author: Your Name
+date: 2024-09-16
+modified: 2024-09-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 127.0.0.1
+    src_port: 51816
+    dest_ip: 127.0.0.1
+    dest_port: 51809
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

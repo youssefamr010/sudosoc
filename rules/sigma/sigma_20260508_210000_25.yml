@@ -1,0 +1,18 @@
+```yml
+title: MSCAN Detection
+status: test
+description: Detects MSCAN activity
+detection:
+  selection:
+    src_ip: 192.168.56.99
+    src_port: 54416
+    dest_ip: 192.168.56.1
+    dest_port: 16
+    proto: tcp
+  condition: selection
+confidence: 84
+level: medium
+logsource:
+  product: unknown
+  service: unknown
+```

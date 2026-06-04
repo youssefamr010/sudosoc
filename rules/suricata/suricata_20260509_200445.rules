@@ -1,0 +1,1 @@
+alert tcp any any -> any 9001 (msg:"SudoSOC: Suspicious Port Probe"; sid:6561916; rev:1; classtype:attempted-attack; priority:1;)

@@ -1,0 +1,1 @@
+alert udp any any -> any 67 (msg:"EXPLOITS Dhcp exploit attempt"; sid:1000001; rev:1; metadata:ML:EXPLOITS@0.79[LLM-ESCALATED];)

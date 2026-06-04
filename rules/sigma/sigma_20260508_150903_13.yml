@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 4444 - Metasploit default listener
+id: SUSPICIOUS_PORT_4444
+status: test
+description: Detects suspicious connections to port 4444, a default Metasploit listener port
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 4444
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dst_ip
+- dst_port
+- proto
+falsepositives:
+- Legitimate use of port 4444
+level: medium
+```

@@ -1,0 +1,41 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Local logs and dynamic database/jsonl files
+*.log
+*.jsonl
+ids_engine.log
+ids_engine_new.log
+mitmdump_stderr.log
+sudosoc_tls_keys.log
+trainer_debug.log
+decrypted_flows.jsonl
+ids_alerts.jsonl
+ids_alerts_new.jsonl
+script_output.txt
+
+# Dataset files (large CSV files)
+data/*.csv
+data/archive/
+*.csv
+
+# Dynamic outputs
+ids_advanced_output/
+ids_output/
+ids_script_output/
+test_results/
+scratch/
+
+# Sensitive key files
+groq_key.txt
+hf_token.txt
+token.txt
+mitmproxy-ca-cert.p12
+
+# OS files
+.DS_Store
+Thumbs.db

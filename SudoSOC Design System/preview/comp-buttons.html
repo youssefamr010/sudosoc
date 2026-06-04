@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:24px 26px;display:flex;flex-direction:column;gap:16px;}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .btn{font-family:var(--font-ui);font-weight:600;font-size:13.5px;border-radius:var(--r-sm);
+       padding:10px 16px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:1px solid transparent;
+       transition:all var(--t-fast) var(--ease-out);}
+  .btn:active{transform:scale(.97);}
+  .btn svg{width:16px;height:16px;}
+  .primary{background:var(--red);color:#fff;}
+  .primary:hover{background:var(--red-bright);box-shadow:var(--glow-soft);}
+  .primary:active{background:var(--red-deep);box-shadow:none;}
+  .secondary{background:var(--panel-2);color:var(--fg);border-color:var(--line);}
+  .secondary:hover{background:var(--panel-3);border-color:#34343e;}
+  .ghost{background:transparent;color:var(--fg-3);}
+  .ghost:hover{color:var(--fg);background:var(--panel-2);}
+  .block{background:var(--red-900);color:var(--red-hi);border-color:rgba(219,34,35,.4);}
+  .block:hover{background:#3a1112;border-color:var(--red);}
+  .lab{font-family:var(--font-mono);font-size:10px;color:var(--fg-4);letter-spacing:.08em;}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kicker kicker--red">Buttons — hover to glow, press to deepen</div>
+  <div class="row">
+    <button class="btn primary"><i data-lucide="zap"></i>Predict flow</button>
+    <button class="btn secondary"><i data-lucide="filter"></i>Filter</button>
+    <button class="btn ghost"><i data-lucide="refresh-cw"></i>Refresh</button>
+  </div>
+  <div class="lab">PRIMARY · SECONDARY · GHOST</div>
+  <div class="row">
+    <button class="btn block"><i data-lucide="ban"></i>Block source IP</button>
+    <button class="btn secondary"><i data-lucide="shield-off"></i>Isolate</button>
+    <button class="btn ghost"><i data-lucide="check"></i>Mark false positive</button>
+  </div>
+  <div class="lab">RESPONSE ACTIONS — destructive uses red-900 fill</div>
+</div>
+<script>lucide.createIcons();</script>
+</body></html>

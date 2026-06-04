@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{font-family:var(--font-ui);padding:22px 24px;display:flex;flex-direction:column;gap:14px;}
+  .hero{display:flex;align-items:center;gap:16px;}
+  .big{flex:1;height:96px;border-radius:var(--r-lg);background:var(--red);position:relative;overflow:hidden;
+       display:flex;align-items:flex-end;padding:12px 14px;box-shadow:var(--glow-red);}
+  .big::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 140% at 80% -20%,rgba(255,255,255,.28),transparent 55%);}
+  .big .nm{font-family:var(--font-mono);font-weight:700;color:#fff;font-size:13px;z-index:1;}
+  .big .hx{font-family:var(--font-mono);color:rgba(255,255,255,.85);font-size:11px;z-index:1;margin-left:8px;}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .sw{border-radius:var(--r-md);border:var(--bd);overflow:hidden;transition:transform var(--t-fast) var(--ease-out);}
+  .sw:hover{transform:translateY(-3px);}
+  .chip{height:54px;}
+  .meta{padding:7px 10px;background:var(--panel);}
+  .nm{font-family:var(--font-mono);font-size:11px;color:var(--fg);font-weight:600;}
+  .hx{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);margin-top:2px;}
+</style></head>
+<body><div class="wrap">
+  <div class="kicker kicker--red">Brand Red — #DB2223 sampled from logo</div>
+  <div class="hero">
+    <div class="big"><span class="nm">red</span><span class="hx">#DB2223</span></div>
+  </div>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:#FF2E33"></div><div class="meta"><div class="nm">red-bright</div><div class="hx">#FF2E33</div></div></div>
+    <div class="sw"><div class="chip" style="background:#FF5257"></div><div class="meta"><div class="nm">red-hi</div><div class="hx">#FF5257</div></div></div>
+    <div class="sw"><div class="chip" style="background:#8E1416"></div><div class="meta"><div class="nm">red-deep</div><div class="hx">#8E1416</div></div></div>
+    <div class="sw"><div class="chip" style="background:#2A0C0D"></div><div class="meta"><div class="nm">red-900</div><div class="hx">#2A0C0D</div></div></div>
+  </div>
+</div></body></html>

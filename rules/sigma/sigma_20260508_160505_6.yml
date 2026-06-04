@@ -1,0 +1,16 @@
+```yml
+title: EXPLOITS Detection
+status: test
+description: Detects EXPLOITS attacks
+detection:
+  selection:
+    src_ip: 192.168.56.1
+    src_port: 5353
+    dest_ip: 224.0.0.251
+    dest_port: 5353
+    proto: UDP
+  condition: selection
+falsepositives:
+- Unknown
+level: medium
+```

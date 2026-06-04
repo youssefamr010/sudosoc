@@ -1,0 +1,1 @@
+alert icmp any any -> any 3 (msg:"SMURF Amplification Attack"; sid:1000001; rev:1; classtype:attempted-recon; metadata:SMURF, ML:SMURF@0.71[m=0.461][ADAPTIVE]);

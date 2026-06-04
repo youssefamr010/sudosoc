@@ -1,0 +1,29 @@
+```yml
+title: EXPLOITS Detection
+id: EXPLOITS-50.16.211.97
+status: test
+description: Detects EXPLOITS activity from 50.16.211.97
+author: System
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 50.16.211.97
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 49188
+    proto: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: medium
+```

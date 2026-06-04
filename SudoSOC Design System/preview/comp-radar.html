@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:20px 24px;display:flex;gap:22px;align-items:center;}
+  .radar{position:relative;width:128px;height:128px;border-radius:999px;
+    background:radial-gradient(circle,rgba(219,34,35,.06),transparent 70%);
+    border:1px solid var(--line);flex:none;overflow:hidden;}
+  .ring{position:absolute;border:1px solid var(--line-soft);border-radius:999px;}
+  .r1{inset:24%;}.r2{inset:42%;}
+  .sweep{position:absolute;inset:0;border-radius:999px;
+    background:conic-gradient(from 0deg,rgba(219,34,35,.55),transparent 60deg);
+    animation:spin 3s linear infinite;}
+  .cross,.crossv{position:absolute;background:var(--line-soft);}
+  .cross{left:0;right:0;top:50%;height:1px;}.crossv{top:0;bottom:0;left:50%;width:1px;}
+  .blip{position:absolute;width:7px;height:7px;border-radius:999px;background:var(--red);box-shadow:0 0 10px var(--red);animation:bp 3s infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes bp{0%,100%{opacity:.2;}40%{opacity:1;}}
+  .info{display:flex;flex-direction:column;gap:8px;}
+  .live{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;
+    font-weight:600;letter-spacing:.14em;color:var(--safe);}
+  .live .d{width:8px;height:8px;border-radius:999px;background:var(--safe);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,194,110,.6);}100%{box-shadow:0 0 0 8px rgba(37,194,110,0);}}
+  .stat{font-family:var(--font-mono);font-size:12px;color:var(--fg-3);}
+  .stat b{color:var(--fg);}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="radar">
+    <div class="ring r1"></div><div class="ring r2"></div>
+    <div class="cross"></div><div class="crossv"></div>
+    <div class="sweep"></div>
+    <span class="blip" style="top:30%;left:62%;animation-delay:.4s"></span>
+    <span class="blip" style="top:64%;left:38%;animation-delay:1.2s"></span>
+    <span class="blip" style="top:48%;left:72%;animation-delay:2.1s"></span>
+  </div>
+  <div class="info">
+    <div class="kicker kicker--red">Live Monitor — radar sweep motif</div>
+    <div class="live"><span class="d"></span>ENGINE NOMINAL</div>
+    <div class="stat">Capturing <b>12,840</b> pps · <b>3</b> sensors</div>
+    <div class="stat">Drift <b>0.04</b> · within threshold</div>
+  </div>
+</div></body></html>

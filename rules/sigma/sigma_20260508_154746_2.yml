@@ -1,0 +1,25 @@
+```yml
+title: DOS Attack Detection
+status: test
+description: Detects DOS attacks using ICMP protocol
+author: Your Name
+date: 2024-03-16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    src_ip: 192.168.56.1
+    dest_ip: 192.168.56.1
+    dest_port: 3
+    proto: ICMP
+  condition: selection
+fields:
+- src_ip
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: medium
+```

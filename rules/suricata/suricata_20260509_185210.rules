@@ -1,0 +1,1 @@
+alert tcp any any -> any 58023 (msg:"SudoSOC: MAILBOMB"; sid:7684605; rev:1; classtype:attempted-attack; priority:1;)

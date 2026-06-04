@@ -1,0 +1,1 @@
+alert tcp any any -> any 57108 (msg:"PROBE Detection"; sid:1000001; rev:1; metadata:ML:PROBE@0.89[m=0.808][ADAPTIVE];)

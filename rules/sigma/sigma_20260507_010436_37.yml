@@ -1,0 +1,13 @@
+```yml
+title: Suspicious Network Activity
+status: test
+description: Detects suspicious network activity
+detection:
+  selection:
+    src_ip: 192.168.100.5
+    src_port: 56611
+    dest_ip: 142.251.209.106
+    dest_port: 443
+    proto: tcp
+  condition: selection
+```

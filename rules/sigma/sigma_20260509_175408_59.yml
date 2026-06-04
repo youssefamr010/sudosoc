@@ -1,0 +1,19 @@
+```yml
+title: DOS Attack Detection
+status: test
+description: Detects DOS attacks based on machine learning model
+logsource:
+  product: network
+detection:
+  selection:
+    Proto: TCP
+    Confidence: 0.78
+  condition: selection
+fields:
+- ML.DOS
+- m
+- Confidence
+falsepositives:
+- unknown network activity
+level: medium
+```

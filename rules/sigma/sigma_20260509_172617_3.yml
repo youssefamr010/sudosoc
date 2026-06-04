@@ -1,0 +1,25 @@
+```yml
+title: SIG:Path Traversal
+status: test
+description: Detects potential path traversal attacks
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 127.0.0.1
+    src_port: 59229
+    dest_ip: 127.0.0.1
+    dest_port: 59600
+    protocol: tcp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- protocol
+falsepositives:
+- Unknown
+level: high
+```

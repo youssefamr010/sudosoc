@@ -1,0 +1,22 @@
+```yml
+title: PROBE Detection
+status: test
+description: Detects PROBE attacks
+author: System
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: network
+  service: udp
+detection:
+  selection:
+    src_ip: 172.64.146.215
+    src_port: 443
+    dest_ip: 172.20.10.6
+    dest_port: 56394
+    proto: UDP
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

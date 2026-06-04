@@ -1,0 +1,1 @@
+alert tcp any any -> any 60020 (msg:"ML:GUESS_PASSWD@0.86[m=0.830][ADAPTIVE]"; sid:1000000; rev:1;)

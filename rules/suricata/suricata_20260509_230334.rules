@@ -1,0 +1,1 @@
+alert tcp any any -> any 53379 (msg:"SudoSOC: GUESS_PASSWD"; sid:6803529; rev:1; classtype:attempted-attack; priority:1;)

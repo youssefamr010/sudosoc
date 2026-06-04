@@ -1,0 +1,22 @@
+```yml
+title: Suspicious NORMAL Traffic
+status: test
+description: Detects suspicious NORMAL traffic
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    Proto: UDP
+    SourceIp: 150.171.22.12
+    DestIp: 192.168.100.5
+    SourcePort: 443
+    DestPort: 61504
+  condition: selection
+falsepositives:
+  - Unknown
+level: low
+```

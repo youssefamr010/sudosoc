@@ -1,0 +1,21 @@
+```yml
+title: Suspicious Port 8888 - Jupyter (exposed)
+status: test
+description: Detects suspicious connections to port 8888, which is commonly used by Jupyter
+references:
+  - https://jupyter.org
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    dst_port: 8888
+    proto: tcp
+  condition: selection
+fields:
+  - dst_port
+  - proto
+falsepositives:
+  - Legitimate Jupyter usage
+level: medium
+```

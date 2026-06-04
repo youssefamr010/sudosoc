@@ -1,0 +1,16 @@
+```yml
+title: EXPLOIT Detection
+status: test
+description: Detects potential EXPLOIT activity
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 192.168.100.5
+    src_port: 64451
+    dest_ip: 142.251.36.202
+    dest_port: 443
+    proto: tcp
+  condition: selection
+```

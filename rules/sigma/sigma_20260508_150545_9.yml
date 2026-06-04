@@ -1,0 +1,24 @@
+```yml
+title: Path Traversal Attack
+status: test
+description: Detects path traversal attacks
+author: Your Name
+date: 2024/09/16
+modified: 2024/09/16
+logsource:
+  product: web
+  service: http
+detection:
+  payload_sig:
+    PAYLOAD_SIG: b'/etc/passwd'
+  condition: payload_sig
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+falsepositives:
+  - Unknown
+level: medium
+```

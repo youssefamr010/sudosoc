@@ -1,0 +1,1 @@
+alert tcp any any -> any 65516 (msg:"SudoSOC: SQL Injection (time-based)"; sid:6369493; rev:1; classtype:attempted-attack; priority:1;)

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:22px 26px;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;align-items:end;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);letter-spacing:.08em;text-transform:uppercase;}
+  .field input,.field select{font-family:var(--font-mono);font-size:13px;color:var(--fg);background:var(--panel-2);
+    border:var(--bd);border-radius:var(--r-sm);padding:10px 12px;outline:none;transition:border var(--t-fast),box-shadow var(--t-fast);}
+  .field input:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-wash);}
+  .field input::placeholder{color:var(--fg-4);}
+  .span2{grid-column:span 2;}
+  .slider{-webkit-appearance:none;height:4px;border-radius:999px;background:var(--line);outline:none;}
+  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:999px;background:var(--red);cursor:pointer;box-shadow:0 0 0 4px var(--red-wash);}
+  .val{font-family:var(--font-mono);font-size:12px;color:var(--red-hi);}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="span2 kicker kicker--red">Form Fields — focus glows red</div>
+  <div class="field"><label>Source IP</label><input value="192.168.1.100"></div>
+  <div class="field"><label>Destination IP</label><input value="8.8.8.8"></div>
+  <div class="field"><label>Destination port</label><input value="443"></div>
+  <div class="field"><label>Protocol</label><select><option>TCP</option><option>UDP</option><option>ICMP</option></select></div>
+  <div class="field span2"><label>Payload entropy — <span class="val" id="ev">6.4</span></label>
+    <input type="range" class="slider" min="0" max="8" step="0.1" value="6.4" oninput="document.getElementById('ev').textContent=(+this.value).toFixed(1)"></div>
+</div></body></html>

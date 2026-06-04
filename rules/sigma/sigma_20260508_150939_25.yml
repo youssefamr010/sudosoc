@@ -1,0 +1,19 @@
+```yml
+title: Port Scan Detection
+status: test
+description: Detects port scans from a single source IP
+references:
+  - https://example.com/port-scan-detection
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 192.168.56.200
+    dest_port: 9090
+    protocol: tcp
+  condition: selection | count(dest_port) by src_ip, dest_ip > 15 and span(3.3s)
+falsepositives:
+  - Legitimate network scanning tools
+level: medium
+```

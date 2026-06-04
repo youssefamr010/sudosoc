@@ -1,0 +1,23 @@
+```yml
+title: MAILBOMB Detection
+id: MAILBOMB
+status: test
+description: Detects MAILBOMB attacks
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 172.217.17.42
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 59367
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

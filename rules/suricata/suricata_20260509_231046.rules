@@ -1,0 +1,1 @@
+alert tcp any any -> any 54968 (msg:"SudoSOC: EXPLOIT"; sid:7161954; rev:1; classtype:attempted-attack; priority:1;)

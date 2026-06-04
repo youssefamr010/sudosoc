@@ -1,0 +1,1 @@
+alert tcp any any -> any 49473 (msg:"ML ATTACK 0.78"; metadata:rule-category="ML:ATTACK@0.78[m=0.600][ADAPTIVE]"; sid:1000000; rev:1;)

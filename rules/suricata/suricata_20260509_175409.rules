@@ -1,0 +1,1 @@
+alert tcp any any -> any 59655 (msg:"Potential DOS Attack"; sid:1000001; rev:1; metadata:ML:DOS@0.78[m=0.605]; classtype:denial-of-service;)

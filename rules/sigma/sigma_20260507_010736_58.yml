@@ -1,0 +1,13 @@
+```yml
+title: Suspicious UDP Traffic
+status: test
+description: Detects suspicious UDP traffic
+detection:
+  selection:
+    src_ip: 20.201.215.0
+    src_port: 3544
+    dest_ip: 192.168.100.5
+    dest_port: 59867
+    proto: udp
+  condition: selection
+```

@@ -1,0 +1,1 @@
+alert tcp any any -> any 15 (msg:"SudoSOC: MSCAN"; sid:3382001; rev:1; classtype:attempted-attack; priority:1;)

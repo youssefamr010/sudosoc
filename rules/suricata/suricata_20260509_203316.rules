@@ -1,0 +1,1 @@
+alert tcp any any -> any 8888 (msg:"SudoSOC: Suspicious Port 8888 – Jupyter (exposed)"; sid:7986695; rev:1; classtype:attempted-attack; priority:1;)

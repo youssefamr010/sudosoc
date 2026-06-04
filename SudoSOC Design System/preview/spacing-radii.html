@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:22px 26px;display:flex;flex-direction:column;gap:16px;}
+  .row{display:flex;gap:18px;align-items:flex-end;}
+  .item{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .box{width:72px;height:56px;background:var(--panel-2);border:var(--bd);}
+  .nm{font-family:var(--font-mono);font-size:10.5px;color:var(--fg);font-weight:600;}
+  .px{font-family:var(--font-mono);font-size:9.5px;color:var(--fg-3);}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kicker kicker--red">Corner Radii</div>
+  <div class="row">
+    <div class="item"><div class="box" style="border-radius:3px"></div><div class="nm">xs</div><div class="px">3px · chips</div></div>
+    <div class="item"><div class="box" style="border-radius:6px"></div><div class="nm">sm</div><div class="px">6px · inputs</div></div>
+    <div class="item"><div class="box" style="border-radius:10px"></div><div class="nm">md</div><div class="px">10px · cards</div></div>
+    <div class="item"><div class="box" style="border-radius:14px"></div><div class="nm">lg</div><div class="px">14px · panels</div></div>
+    <div class="item"><div class="box" style="border-radius:20px"></div><div class="nm">xl</div><div class="px">20px</div></div>
+    <div class="item"><div class="box" style="border-radius:999px;width:56px"></div><div class="nm">pill</div><div class="px">999 · dots</div></div>
+  </div>
+</div></body></html>

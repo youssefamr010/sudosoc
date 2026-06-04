@@ -1,0 +1,1 @@
+alert tcp any any -> any 59636 (msg:"SudoSOC: PROBE"; sid:5870060; rev:1; classtype:attempted-attack; priority:1;)

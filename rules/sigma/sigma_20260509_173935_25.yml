@@ -1,0 +1,25 @@
+```yml
+title: GUESS_PASSWD Detection
+status: test
+description: Detects potential password guessing attacks
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 149.154.167.99
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 60019
+    proto: tcp
+  condition: selection
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+falsepositives:
+  - Unknown
+level: medium
+```

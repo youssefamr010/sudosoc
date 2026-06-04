@@ -1,0 +1,1 @@
+alert tcp any any -> any 61304 (msg:"ML ATTACK 0.89"; metadata:rule ML:ATTACK@0.89[m=0.800][ADAPTIVE]; sid:1000000; rev:1;)

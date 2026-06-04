@@ -1,0 +1,25 @@
+```yml
+title: EXPLOITS Detection
+status: test
+description: Detects EXPLOITS activity
+logsource:
+  product: network
+  service: udp
+detection:
+  selection:
+    src_ip: 102.190.35.137
+    src_port: 55355
+    dest_ip: 192.168.100.5
+    dest_port: 59867
+    proto: UDP
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: medium
+```

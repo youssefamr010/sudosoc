@@ -1,0 +1,1 @@
+alert udp any any -> any 50881 (msg:"SudoSOC: NORMAL"; sid:2401860; rev:1; classtype:attempted-attack; priority:1;)

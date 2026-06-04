@@ -1,0 +1,29 @@
+```yml
+title: Suspicious Process Table Activity
+status: test
+description: Detects suspicious process table activity
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4688
+    DestinationIp: 192.168.56.1
+    DestinationPort: 445
+    Protocol: TCP
+    SourceIp: 192.168.56.200
+    SourcePort: 55104
+  condition: selection
+fields:
+- DestinationIp
+- DestinationPort
+- Protocol
+- SourceIp
+- SourcePort
+falsepositives:
+- Unknown
+level: medium
+```

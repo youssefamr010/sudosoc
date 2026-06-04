@@ -1,0 +1,28 @@
+```yml
+title: NMAP Detection
+status: test
+description: Detects NMAP scans
+author: Your Name
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    src_ip: 192.168.56.1
+    src_port: 49557
+    dest_ip: 239.255.255.250
+    dest_port: 1900
+    proto: udp
+  condition: selection
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: medium
+```

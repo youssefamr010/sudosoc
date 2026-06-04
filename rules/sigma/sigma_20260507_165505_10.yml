@@ -1,0 +1,21 @@
+```yml
+title: Port Scan Detection
+status: test
+description: Detects port scans from a single source IP
+references:
+  - https://example.com/port-scan-detection
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    src_ip: 192.168.100.5
+    src_port: 50167
+    dest_ip: 192.168.100.1
+    dest_port: 8009
+    protocol: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

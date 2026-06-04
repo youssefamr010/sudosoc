@@ -1,0 +1,1 @@
+alert udp any any -> any 50623 (msg:"ML EXPLOITS 0.77 LLM-ESCALATED"; sid:1000000; rev:1; metadata:ruletype,exploit; classtype:attempted-admin;)

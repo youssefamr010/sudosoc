@@ -1,0 +1,27 @@
+```yml
+title: APACHE2 Detection
+status: test
+description: Detects APACHE2 attacks
+references:
+  - https://example.com/APACHE2
+logsource:
+  product: webserver
+  service: http
+detection:
+  selection:
+    src_ip: 216.239.34.223
+    src_port: 443
+    dest_ip: 192.168.100.5
+    dest_port: 55741
+    protocol: tcp
+  condition: selection
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - protocol
+falsepositives:
+  - Unknown
+level: medium
+```

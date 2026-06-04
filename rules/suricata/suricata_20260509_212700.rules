@@ -1,0 +1,1 @@
+alert tcp any any -> any 9001 (msg:"SudoSOC: Suspicious Port 9001 – Tor entry node"; sid:8325173; rev:1; classtype:attempted-attack; priority:1;)

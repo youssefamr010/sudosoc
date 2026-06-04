@@ -1,0 +1,1 @@
+alert tcp any any -> any 57611 (msg:"GUESS_PASSWD Attempt"; flow:established; threshold: type both, track by_src, count 5, seconds 60; metadata:ML:GUESS_PASSWD@0.86[m=0.830][ADAPTIVE]; sid:1000001; rev:1;)"

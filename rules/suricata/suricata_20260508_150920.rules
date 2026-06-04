@@ -1,0 +1,1 @@
+alert tcp any any -> any 14444 (msg:"SudoSOC: Suspicious Port 14444 – Mining pool alt"; sid:3836166; rev:1; classtype:attempted-attack; priority:1;)

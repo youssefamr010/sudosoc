@@ -1,0 +1,1 @@
+alert tcp any any -> any 50871 (msg:"ML EXPLOIT 0.90"; metadata:rule ML_EXPLOIT, score 0.825, adaptive; sid:1000000; rev:1;)

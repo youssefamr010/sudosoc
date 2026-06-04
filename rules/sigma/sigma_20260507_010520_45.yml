@@ -1,0 +1,30 @@
+```yml
+title: Shell Injection Detection
+status: test
+description: Detects shell injection attacks
+author: Your Name
+date: 2023-03-01
+modified: 2023-03-01
+logsource:
+  product: linux
+  service: syslog
+detection:
+  payload_sig:
+    PAYLOAD_SIG: b'/bin/bash'
+  selection:
+    src_ip: 192.168.56.99
+    src_port: 54100
+    dest_ip: 192.168.56.1
+    dest_port: 4444
+    proto: tcp
+  condition: selection and payload_sig
+fields:
+- src_ip
+- src_port
+- dest_ip
+- dest_port
+- proto
+falsepositives:
+- Unknown
+level: high
+```

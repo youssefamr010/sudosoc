@@ -1,0 +1,1 @@
+alert udp any any -> any 1473 (msg:"SudoSOC: DOS"; sid:1044813; rev:1; classtype:attempted-attack; priority:1;)

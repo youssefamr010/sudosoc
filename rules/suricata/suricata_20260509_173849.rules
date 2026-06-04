@@ -1,0 +1,1 @@
+alert udp any any -> any 5355 (msg:"SudoSOC: SNMPGUESS"; sid:3607148; rev:1; classtype:attempted-attack; priority:1;)

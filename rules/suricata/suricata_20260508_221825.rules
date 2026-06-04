@@ -1,0 +1,1 @@
+alert udp any any -> any 443 (msg:"PROBE Detection"; metadata:rule-type=ML; metadata:rule-category=PROBE; threshold: type limit, track by_src, count 1, seconds 1; sid:1000000; rev:1;)

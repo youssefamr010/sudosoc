@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:20px 24px;}
+  .verdict{background:var(--panel);border:1px solid rgba(219,34,35,.45);border-radius:var(--r-lg);
+    padding:18px 20px;box-shadow:var(--glow-soft);position:relative;overflow:hidden;}
+  .verdict::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red);}
+  .top{display:flex;align-items:center;gap:12px;}
+  .top svg{width:24px;height:24px;color:var(--red-hi);}
+  .title{font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--fg);letter-spacing:-.01em;}
+  .sub{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);letter-spacing:.06em;margin-top:2px;}
+  .conf{margin-top:16px;}
+  .conf .lab{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--fg-3);margin-bottom:6px;}
+  .conf .lab b{color:var(--red-hi);font-size:13px;}
+  .bar{height:8px;background:var(--panel-3);border-radius:999px;overflow:hidden;}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,var(--red-deep),var(--red-bright));border-radius:999px;
+    transition:width 1.4s var(--ease-out);}
+  .meta{margin-top:14px;font-family:var(--font-mono);font-size:11.5px;color:var(--fg-2);line-height:1.6;}
+  .meta b{color:var(--fg);}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="verdict">
+    <div class="top"><i data-lucide="shield-alert"></i>
+      <div><div class="title">ATTACK DETECTED</div>
+      <div class="sub">SYN FLOOD · TA0040 IMPACT · T1498.001</div></div>
+    </div>
+    <div class="conf">
+      <div class="lab"><span>MODEL CONFIDENCE</span><b>97%</b></div>
+      <div class="bar"><div class="fill" id="fill"></div></div>
+    </div>
+    <div class="meta"><b>185.220.101.4</b>:443 → <b>10.0.0.12</b>:80 · 48,210 pkts<br>
+      Recommended: <b style="color:var(--red-hi)">AUTO_BLOCK</b> + upstream rate-limit.</div>
+  </div>
+</div>
+<script>
+  setTimeout(()=>document.getElementById('fill').style.width='97%',300);
+  setInterval(()=>{const f=document.getElementById('fill');f.style.width='0';setTimeout(()=>f.style.width='97%',400);},4000);
+  lucide.createIcons();
+</script></body></html>

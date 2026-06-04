@@ -1,0 +1,1 @@
+alert tcp any any -> any 4899 (msg:"SudoSOC: Suspicious Port 4899 – Radmin RAT"; sid:5665764; rev:1; classtype:attempted-attack; priority:1;)

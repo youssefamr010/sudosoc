@@ -1,0 +1,27 @@
+```yml
+title: Suspicious Multicast UDP Traffic
+status: test
+description: Detects suspicious multicast UDP traffic
+references:
+  - https://example.com
+logsource:
+  product: network
+  service: udp
+detection:
+  selection:
+    src_ip: 192.168.56.1
+    src_port: 5353
+    dest_ip: 224.0.0.251
+    dest_port: 5353
+    proto: UDP
+  condition: selection
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+falsepositives:
+  - Unknown
+level: low
+```

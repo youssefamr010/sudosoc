@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:22px 26px;display:flex;flex-direction:column;gap:16px;}
+  .tag{font-family:var(--font-mono);font-size:10px;color:var(--fg-4);letter-spacing:.06em;margin-top:6px;}
+  .metrics{display:flex;gap:28px;align-items:baseline;}
+  .m .v{font-family:var(--font-mono);font-weight:700;font-size:34px;color:var(--fg);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+  .m .red{color:var(--red-hi);}
+  .m .l{font-family:var(--font-mono);font-size:10px;color:var(--fg-3);letter-spacing:.1em;text-transform:uppercase;}
+  .data{font-family:var(--font-mono);font-size:14px;color:var(--fg-2);}
+  .data b{color:var(--fg);}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kicker kicker--red">Data &amp; Metrics — JetBrains Mono · tabular</div>
+  <div class="metrics">
+    <div class="m"><div class="v">1,284,902</div><div class="l">Total flows</div></div>
+    <div class="m"><div class="v red">3,417</div><div class="l">Attacks</div></div>
+    <div class="m"><div class="v">95.4%</div><div class="l">Accuracy</div></div>
+  </div>
+  <div class="data">14:22:07 · <b>185.220.101.4</b>:443 → <b>10.0.0.12</b>:80 · conf <b>0.97</b></div>
+  <div class="data" style="color:var(--fg-3)">TA0043 Reconnaissance · T1046 Network Service Scanning</div>
+  <div class="tag">IPs · ports · timestamps · SIDs · confidence — all mono, tabular-nums</div>
+</div></body></html>

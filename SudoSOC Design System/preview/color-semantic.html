@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{font-family:var(--font-ui);padding:22px 24px;display:flex;flex-direction:column;gap:14px;}
+  .row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .sw{border-radius:var(--r-md);border:var(--bd);overflow:hidden;background:var(--panel);transition:transform var(--t-fast) var(--ease-out);}
+  .sw:hover{transform:translateY(-3px);}
+  .chip{height:46px;display:flex;align-items:center;justify-content:center;}
+  .dot{width:14px;height:14px;border-radius:999px;}
+  .meta{padding:7px 9px;}
+  .nm{font-family:var(--font-mono);font-size:10.5px;color:var(--fg);font-weight:600;}
+  .hx{font-family:var(--font-mono);font-size:9.5px;color:var(--fg-3);margin-top:2px;}
+  .tag{font-family:var(--font-mono);font-size:8.5px;color:var(--fg-4);letter-spacing:.08em;text-transform:uppercase;margin-top:1px;}
+</style></head>
+<body><div class="wrap">
+  <div class="kicker kicker--red">Semantic / Status — severity &amp; response tiers</div>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:rgba(255,59,64,.14)"><span class="dot" style="background:#FF3B40"></span></div><div class="meta"><div class="nm">critical</div><div class="hx">#FF3B40</div><div class="tag">AUTO_BLOCK</div></div></div>
+    <div class="sw"><div class="chip" style="background:rgba(255,138,61,.14)"><span class="dot" style="background:#FF8A3D"></span></div><div class="meta"><div class="nm">high</div><div class="hx">#FF8A3D</div><div class="tag">ISOLATE</div></div></div>
+    <div class="sw"><div class="chip" style="background:rgba(255,197,61,.14)"><span class="dot" style="background:#FFC53D"></span></div><div class="meta"><div class="nm">medium</div><div class="hx">#FFC53D</div><div class="tag">WARN</div></div></div>
+    <div class="sw"><div class="chip" style="background:rgba(59,130,246,.14)"><span class="dot" style="background:#3B82F6"></span></div><div class="meta"><div class="nm">info</div><div class="hx">#3B82F6</div><div class="tag">RATE_LIMIT</div></div></div>
+    <div class="sw"><div class="chip" style="background:rgba(37,194,110,.14)"><span class="dot" style="background:#25C26E"></span></div><div class="meta"><div class="nm">safe</div><div class="hx">#25C26E</div><div class="tag">LOG / OK</div></div></div>
+    <div class="sw"><div class="chip" style="background:rgba(34,211,216,.14)"><span class="dot" style="background:#22D3D8"></span></div><div class="meta"><div class="nm">cyan</div><div class="hx">#22D3D8</div><div class="tag">ENCRYPTED</div></div></div>
+  </div>
+</div></body></html>

@@ -1,0 +1,1 @@
+alert tcp any any -> any 443 (msg:"Potential DOS Attack"; threshold: type limit, track by_src, count 100, seconds 10; sid:1000001; rev:1; metadata:ML:DOS@0.91[m=0.878]);

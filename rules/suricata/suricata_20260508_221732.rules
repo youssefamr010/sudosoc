@@ -1,0 +1,1 @@
+alert udp any any -> any 56394 (msg:"SudoSOC: PROBE"; sid:7334640; rev:1; classtype:attempted-attack; priority:1;)

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:0;display:grid;grid-template-columns:1.3fr 1fr;min-height:150px;}
+  .dark{background:var(--void);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .dark::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 50%,rgba(219,34,35,.12),transparent 70%);}
+  .light{background:#EDEEF0;display:flex;align-items:center;justify-content:center;}
+  .dark img{width:62%;z-index:1;}
+  .light img{width:62%;}
+  .tag{position:absolute;left:16px;bottom:12px;font-family:var(--font-mono);font-size:9.5px;color:var(--fg-4);letter-spacing:.1em;z-index:1;}
+  .tag2{position:absolute;left:16px;bottom:12px;font-family:var(--font-mono);font-size:9.5px;color:#9A9CA1;letter-spacing:.1em;}
+</style></head>
+<body><div class="wrap">
+  <div class="dark"><img src="../assets/logo_wordmark_dark.png" alt="sudosoc"><span class="tag">ON DARK — DEFAULT</span></div>
+  <div class="light"><img src="../assets/logo_wordmark_light.png" alt="sudosoc"><span class="tag2">ON LIGHT</span></div>
+</div></body></html>

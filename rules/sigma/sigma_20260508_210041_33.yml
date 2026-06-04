@@ -1,0 +1,18 @@
+```yml
+title: PROBE Detection
+description: Detects potential probing activity
+status: test
+tags:
+  - Attack.PROBE
+logsource:
+  product: network
+  service: tcp
+detection:
+  selection:
+    src_ip: 162.247.241.14
+    src_port: 443
+    dest_ip: 172.20.10.6
+    dest_port: 52989
+    protocol: tcp
+  condition: selection
+```

@@ -1,0 +1,1 @@
+alert udp any any -> any 5353 (msg:"APACHE2 ML:APACHE2@0.86[m=0.757][ADAPTIVE]"; sid:1000001; rev:1;)

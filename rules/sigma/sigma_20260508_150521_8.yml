@@ -1,0 +1,24 @@
+```yml
+title: NOP-Sled / Shellcode Detection
+status: test
+description: Detects NOP-Sled / Shellcode attacks
+author: Your Name
+date: 2024/09/16
+modified: 2024/09/16
+logsource:
+  product: windows
+  service: syslog
+detection:
+  payload_sig:
+    PAYLOAD_SIG: '\x90\x90\x90\x90\x90\x90\x90\x90'
+  condition: payload_sig
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+falsepositives:
+  - Unknown
+level: medium
+```

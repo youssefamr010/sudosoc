@@ -1,0 +1,23 @@
+```yml
+title: Suspicious Port 1337
+id: 9f896e1a-8a2a-43c1-8f4.MixedReality
+status: test
+description: Detects suspicious connections to port 1337, a known elite/hacker port
+author: Your Name
+date: 2023/01/01
+modified: 2023/01/01
+tags:
+  - Suspicious Port
+  - Elite/Hacker Port
+logsource:
+  category: network
+  product: firewall
+detection:
+  selection:
+    dst_port: 1337
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

@@ -1,0 +1,71 @@
+﻿python : INFO: Skipping cic2017_Monday.csv, processed version already exists.
+At line:1 char:1
++ python train_cic_model.py > train_log.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO: Skipping ...already exists.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO: Skipping cic2017_Wednesday.csv, processed version already exists.
+[+] Found 2 CSV file(s)
+    OK  processed_cic2017_Monday.csv        ->  502,983 rows
+    OK  processed_cic2017_Wednesday.csv     ->  610,794 rows
+    FEEDBACK: Added 47 samples from online_learning.csv
+
+[+] Total dataset: 1,113,824 rows x 85 columns
+
+[+] Engineering features...
+    Done - total columns: 108
+[+] Using 29 feature columns for training
+
+============================================================
+  MODE: SUPERVISED  ->  XGBoost
+============================================================
+
+[!] Dataset has 1,113,824 rows; downsampling to ~512,000 (stratified) for stable training time.
+[+] Downsampled dataset: 512,000 rows
+
+[+] Label distribution:
+    ATTACK                       89,088  (17.4%)
+    NORMAL                      422,912  (82.6%)
+
+[+] Train size: 409,600  |  Test size: 102,400
+
+[+] Training XGBoost classifier...
+Traceback (most recent call last):
+  File "C:\Users\hp\Downloads\sudosoc_2026\IDS_IPS_TRAINER\train_cic_model.py", line 63, in <module>
+    main()
+  File "C:\Users\hp\Downloads\sudosoc_2026\IDS_IPS_TRAINER\train_cic_model.py", line 53, in main
+    results = train_supervised(df, feature_cols, "label")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Downloads\sudosoc_2026\IDS_IPS_TRAINER\ids_ips_trainer.py", line 594, in train_supervised
+    clf.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=True)
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\sklearn.py", line 1806, in fit
+    self._Booster = train(
+                    ^^^^^^
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\training.py", line 200, in train
+    if cb_container.after_iteration(bst, i, dtrain, evals):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\callback.py", line 266, in after_iteration
+    score: str = model.eval_set(evals, epoch, self.metric, self._output_margin)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\core.py", line 2539, in eval_set
+    _check_call(
+  File "C:\Users\hp\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages
+\Python311\site-packages\xgboost\core.py", line 323, in _check_call
+    raise XGBoostError(py_str(_LIB.XGBGetLastError()))
+xgboost.core.XGBoostError: [14:34:22] C:\actions-runner\_work\xgboost\xgboost\src\metric\multiclass_metric.cu:34: 
+Check failed: label_error >= 0 && label_error < static_cast<int32_t>(n_class): MultiClassEvaluation: label must be in 
+[0, num_class), num_class=1 but found 1 in label
+

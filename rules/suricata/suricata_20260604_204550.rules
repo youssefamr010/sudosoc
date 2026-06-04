@@ -1,0 +1,1 @@
+alert tcp any any -> any 58557 (msg:"ML EXPLOIT 0.90"; metadata:rule-type "EXPLOIT"; threshold: type limit, track by_src, count 1, seconds 1; sid:1000000; rev:1;)

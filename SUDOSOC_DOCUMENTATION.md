@@ -1,0 +1,116 @@
+# SudoSoc - AI-Powered Security Platform Documentation
+
+**Project Name**: SudoSoc Security Platform  
+**Project Version**: 2.0 (Stacking Ensemble Edition)  
+**Status**: Production Ready / Optimization Phase  
+
+---
+
+## 1. Project Overview
+SudoSoc is an enterprise-grade AI-powered Intrusion Detection and Prevention System (IDS/IPS). It combines traditional heuristic signatures with advanced Machine Learning (Stacking Ensembles) and Generative AI to identify, verify, and block network threats in real-time.
+
+---
+
+## 2. Core Features
+
+### 2.1. Hybrid Detection Engine
+- **Heuristic Layer**: Rapid matching of flow patterns against known suspicious ports and volume thresholds.
+- **ML Layer**: Advanced Stacking Ensemble (Random Forest + XGBoost) for identifying complex attack patterns (DoS, Exploits, Probes).
+- **LLM Layer**: Integration with HuggingFace (Mixtral-8x7B) for high-level threat verification and natural language explanations.
+
+### 2.2. Encrypted Anomaly Detection
+- Analyzes payload entropy and packet timing variance to detect malicious activity within encrypted (TLS/SSL) streams without requiring decryption.
+
+### 2.3. Automated Response
+- **Active Blocking**: Uses Windows `netsh` firewall to automatically block source IPs of high-confidence threats.
+- **Session Reset**: Capable of terminating malicious TCP connections.
+
+### 2.4. Real-time Dashboard
+- Visual monitoring of network traffic, alert distribution, and top threat actors using a modern Streamlit interface.
+
+---
+
+## 3. Technical Architecture
+
+### 3.1. Behavioral Feature Engineering
+To ensure the system generalizes to new threats, we prioritize **behavioral signals** over raw identities:
+- **Flow Density**: Bytes per millisecond.
+- **Payload Density**: Entropy per byte of data.
+- **Packet-to-Byte Ratio**: Detects flood-based attacks.
+- **Relative Port Flags**: Categorizes ports into System, User, and Dynamic ranges.
+
+### 3.2. Stacking Ensemble Model
+The system uses a two-tier classification approach:
+1. **Base Learners**: Random Forest (robustness) and XGBoost (precision).
+2. **Meta-Learner**: Logistic Regression that learns how to best combine predictions based on flow characteristics.
+
+---
+
+## 4. File & Component Details
+
+| Number | File Name | Purpose | Key Features |
+| :--- | :--- | :--- | :--- |
+| 1 | `realtime_ids.py` | Main Execution Engine | Scapy sniffing, Heuristic logic, ML inference, Firewall blocking. |
+| 2 | `ids_ips_trainer.py` | ML Pipeline | Data loading, Stacking Ensemble training, Model persistence. |
+| 3 | `dashboard.py` | Monitoring UI | Real-time alert visualization, Traffic stats, IP blacklisting view. |
+| 4 | `llm_analyzer.py` | AI Verification | HuggingFace API integration for deep flow analysis. |
+| 5 | `ids_check.py` | Diagnostic Tool | Environment verification, API connectivity test, Npcap check. |
+| 6 | `process_unsw.py` | Data Preparation | Normalization of UNSW-NB15 and KDD datasets. |
+| 7 | `ids_alerts.jsonl` | Persistent Log | JSON-based storage for every detected alert. |
+
+---
+
+## 5. Project Progress Tracker
+
+### ✅ Completed Tasks (Done)
+1. **[1.1]** Implementation of Stacking Ensemble Classifier (RF + XGB -> LR).
+2. **[1.2]** Elimination of Confidence Plateaus via Granular Heuristics.
+3. **[1.3]** Removal of IP-overfitting features for better generalization.
+4. **[1.4]** Integration of Encrypted Traffic Anomaly Detection.
+5. **[1.5]** Fixed HuggingFace API connectivity (Switched to Zephyr-7B).
+6. **[1.6]** Automated netsh firewall rule management.
+7. **[1.7]** Resolved 89% Confidence Plateaus via Granular Heuristics.
+8. **[1.8]** Optimized training pipeline to handle limited disk space.
+
+### ⏳ In-Progress Tasks
+8. **[2.1]** **Online Learning**: Implementing a feedback loop to retrain the model on new, locally-captured traffic.
+9. **[2.2]** **Protocol Expansion**: Enhancing ICMP and IPv6 specific detection patterns.
+10. **[2.3]** **Advanced Decryption**: Optional MITM-proxy integration for full TLS inspection.
+
+---
+
+## 6. How to Use
+
+### 6.1. Environment Setup
+Ensure you have the required packages:
+```bash
+pip install scapy pandas numpy scikit-learn xgboost streamlit requests joblib
+```
+
+### 6.2. Training the Model
+Run the trainer to build the latest Stacking Ensemble:
+```bash
+python ids_ips_trainer.py
+```
+
+### 6.3. Running Real-time IDS
+**Important**: Run as Administrator/Root to enable firewall blocking.
+```bash
+python realtime_ids.py
+```
+
+### 6.4. Launching the Dashboard
+Open a separate terminal and run:
+```bash
+streamlit run dashboard.py
+```
+
+---
+
+## 7. Maintenance & Troubleshooting
+- **Disk Full Errors**: The system now includes `n_jobs=1` for the ensemble and cleanup scripts to avoid `OSError [Errno 28]`.
+- **404 API Errors**: Verify your HuggingFace token in `hf_token.txt`.
+- **Packet Capture**: Ensure Npcap is installed in "WinPcap Compatibility Mode" on Windows.
+
+---
+**Document generated by Antigravity AI for SudoSoc Security Platform.**

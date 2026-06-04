@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SudoSOC — Security Operations Console</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--void);}
+  #bgfx{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;}
+  #bgvignette{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(70% 90% at 78% 8%,rgba(219,34,35,.10),transparent 60%);
+    animation:sds-breathe 7s var(--ease-in-out) infinite;}
+  @keyframes sds-breathe{0%,100%{opacity:.6;}50%{opacity:1;}}
+  #root{height:100vh;position:relative;z-index:1;}
+  ::-webkit-scrollbar{width:9px;height:9px;}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  @keyframes sds-pulse{0%{box-shadow:0 0 0 0 currentColor;}70%{box-shadow:0 0 0 7px transparent;}100%{box-shadow:0 0 0 0 transparent;}}
+  @keyframes sds-spin{to{transform:rotate(360deg);}}
+  @keyframes sds-blip{0%,100%{opacity:.2;}40%{opacity:1;}}
+  @keyframes sds-slidein{from{opacity:0;transform:translateY(-12px);background:var(--red-wash);}to{opacity:1;transform:none;}}
+  .sds-slidein{animation:sds-slidein .55s var(--ease-out);}
+  @keyframes sds-drawer{from{transform:translateX(40px);}to{transform:none;}}
+  .sds-drawer{opacity:1;animation:sds-drawer .3s var(--ease-out);}
+  @keyframes sds-pop{from{transform:scale(.97);opacity:0;}to{transform:none;opacity:1;}}
+  .sds-pop{animation:sds-pop .3s var(--ease-out);}
+  @keyframes sds-toast{from{transform:translate(-50%,16px);opacity:0;}to{transform:translate(-50%,0);opacity:1;}}
+  .sds-toast{animation:sds-toast .3s var(--ease-out);}
+  @keyframes sds-blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+  .sds-cursor{color:var(--red-hi);animation:sds-blink 1s step-end infinite;}
+  @keyframes sds-draw{to{stroke-dashoffset:0;}}
+  .pulse-dot{animation:sds-pulse 1.6s infinite;}
+</style>
+</head>
+<body class="sds">
+<canvas id="bgfx"></canvas>
+<div id="bgvignette"></div>
+<div id="root"></div>
+<script>
+/* Ambient telemetry field — red & white cells twinkle in and out behind the console. */
+(function(){
+  var cv=document.getElementById('bgfx'),ctx=cv.getContext('2d');
+  var DPR=Math.min(2,window.devicePixelRatio||1),W=0,H=0,CELL=30,cols=0,rows=0;
+  var cells=[];        // active twinkles
+  var sweep=-200;      // diagonal scan position
+  function resize(){
+    W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);cols=Math.ceil(W/CELL);rows=Math.ceil(H/CELL);
+  }
+  window.addEventListener('resize',resize);resize();
+  function spawn(){
+    // weighted: mostly faint white, occasional bright red
+    var red=Math.random()<0.34;
+    cells.push({
+      gx:(Math.random()*cols|0),gy:(Math.random()*rows|0),
+      red:red,life:0,
+      dur:900+Math.random()*2200,
+      peak:red?(0.5+Math.random()*0.4):(0.18+Math.random()*0.22),
+      size:red?(Math.random()<0.5?'dot':'cell'):'cell'
+    });
+  }
+  var last=performance.now(),acc=0;
+  function frame(t){
+    var dt=Math.min(60,t-last);last=t;acc+=dt;
+    // spawn a few per ~120ms
+    while(acc>110){acc-=110;for(var s=0;s<3;s++)spawn();if(cells.length>180)cells.splice(0,cells.length-180);}
+    ctx.clearRect(0,0,W,H);
+    // faint static graticule
+    ctx.lineWidth=1;ctx.strokeStyle='rgba(255,255,255,0.022)';ctx.beginPath();
+    for(var x=0;x<=cols;x++){ctx.moveTo(x*CELL+.5,0);ctx.lineTo(x*CELL+.5,H);}
+    for(var y=0;y<=rows;y++){ctx.moveTo(0,y*CELL+.5);ctx.lineTo(W,y*CELL+.5);}
+    ctx.stroke();
+    // twinkles
+    for(var i=cells.length-1;i>=0;i--){
+      var c=cells[i];c.life+=dt;var p=c.life/c.dur;
+      if(p>=1){cells.splice(i,1);continue;}
+      var a=Math.sin(p*Math.PI)*c.peak;        // fade in then out
+      var px=c.gx*CELL,py=c.gy*CELL;
+      if(c.red){
+        if(c.size==='dot'){
+          ctx.fillStyle='rgba(255,46,51,'+a+')';
+          ctx.beginPath();ctx.arc(px+CELL/2,py+CELL/2,2.4,0,7);ctx.fill();
+          ctx.fillStyle='rgba(219,34,35,'+(a*0.22)+')';
+          ctx.beginPath();ctx.arc(px+CELL/2,py+CELL/2,9,0,7);ctx.fill();
+        } else {
+          ctx.fillStyle='rgba(219,34,35,'+(a*0.5)+')';
+          ctx.fillRect(px+3,py+3,CELL-6,CELL-6);
+        }
+      } else {
+        ctx.fillStyle='rgba(228,230,235,'+(a*0.5)+')';
+        ctx.fillRect(px+4,py+4,CELL-8,CELL-8);
+      }
+    }
+    // slow diagonal sweep highlighting the column it passes
+    sweep+=dt*0.10;if(sweep>W+200)sweep=-200;
+    var g=ctx.createLinearGradient(sweep-120,0,sweep+120,0);
+    g.addColorStop(0,'rgba(219,34,35,0)');g.addColorStop(0.5,'rgba(219,34,35,0.05)');g.addColorStop(1,'rgba(219,34,35,0)');
+    ctx.fillStyle=g;ctx.fillRect(sweep-120,0,240,H);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="data.js"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="Chrome.jsx"></script>
+<script type="text/babel" src="Overview.jsx"></script>
+<script type="text/babel" src="Analytics.jsx"></script>
+<script type="text/babel" src="Predict.jsx"></script>
+<script type="text/babel" src="Intelligence.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+</body>
+</html>

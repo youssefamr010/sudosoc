@@ -1,0 +1,1 @@
+alert icmp any any -> any 3 (msg:"SudoSOC: SMURF"; sid:7360620; rev:1; classtype:attempted-attack; priority:1;)

@@ -1,0 +1,1 @@
+alert tcp any any -> any 443 (msg:"ML:ATTACK@1.00[m=0.997][ADAPTIVE]"; sid:1000000; rev:1;)

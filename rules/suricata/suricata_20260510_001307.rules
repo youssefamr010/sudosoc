@@ -1,0 +1,1 @@
+alert tcp any any -> any 61903 (msg:"SudoSOC: DOS"; sid:5132336; rev:1; classtype:attempted-attack; priority:1;)

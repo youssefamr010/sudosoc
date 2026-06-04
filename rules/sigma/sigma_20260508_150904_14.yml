@@ -1,0 +1,23 @@
+```yml
+title: Suspicious Port 5555 - ADB / Metasploit alt
+status: test
+description: Detects suspicious connections to port 5555, commonly used by ADB and Metasploit
+references:
+  - https://attack.mitre.org/techniques/T1190/
+detection:
+  selection:
+    src_port: 54018
+    dst_port: 5555
+    proto: tcp
+  condition: selection
+fields:
+  - src_ip
+  - dst_ip
+  - src_port
+  - dst_port
+  - proto
+falsepositives:
+  - Legitimate ADB connections
+  - Misconfigured firewalls
+level: medium
+```

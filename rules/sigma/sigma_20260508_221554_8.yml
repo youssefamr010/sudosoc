@@ -1,0 +1,23 @@
+```yml
+title: PROBE Detection
+id: ML-PROBE
+status: test
+description: Detects PROBE activity
+author: Your Name
+date: 2024-01-01
+modified: 2024-01-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 172.20.10.6
+    src_port: 57088
+    dest_ip: 3.215.12.84
+    dest_port: 9243
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

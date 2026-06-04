@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--void);}
+  .motif{position:relative;height:150px;overflow:hidden;
+    background:
+      linear-gradient(var(--line-soft) 1px,transparent 1px) 0 0/100% 28px,
+      linear-gradient(90deg,var(--line-soft) 1px,transparent 1px) 0 0/28px 100%,
+      var(--void);}
+  .glow{position:absolute;inset:0;background:radial-gradient(50% 120% at 30% 0%,rgba(219,34,35,.18),transparent 60%);}
+  .scan{position:absolute;left:0;right:0;height:60px;
+    background:linear-gradient(180deg,transparent,rgba(219,34,35,.10),transparent);
+    animation:drift 4s linear infinite;}
+  @keyframes drift{0%{top:-60px;}100%{top:150px;}}
+  .lines{position:absolute;left:0;right:0;top:0;bottom:0;
+    background:repeating-linear-gradient(180deg,rgba(255,255,255,.015) 0 2px,transparent 2px 4px);}
+  .label{position:absolute;left:18px;top:16px;z-index:2;}
+</style></head>
+<body><div class="motif">
+  <div class="glow"></div>
+  <div class="lines"></div>
+  <div class="scan"></div>
+  <div class="label kicker kicker--red">Background Motif — graticule · scanline · red vignette</div>
+</div></body></html>

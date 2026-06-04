@@ -1,0 +1,26 @@
+```yml
+title: Suspicious Port 5555 - ADB / Metasploit alt
+id: 9f8965a4-8a8a-11ec-bf84-0242ac110002
+status: test
+description: Detects suspicious connections to port 5555, commonly used by ADB and Metasploit
+author: Your Name
+date: 2023/03/01
+modified: 2023/03/01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    dst_port: 5555
+    proto: tcp
+  condition: selection
+fields:
+  - src_ip
+  - src_port
+  - dst_ip
+  - dst_port
+  - proto
+falsepositives:
+  - Legitimate ADB connections
+level: medium
+```

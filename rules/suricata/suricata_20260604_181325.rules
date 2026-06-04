@@ -1,0 +1,1 @@
+alert tcp any any -> any 56120 (msg:"MSCAN Detection"; sid:1000001; rev:1; metadata:ML:MSCAN@0.76[m=0.588][ADAPTIVE];)

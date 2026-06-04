@@ -1,0 +1,18 @@
+```yml
+title: SIG:Path Traversal
+status: test
+description: Detects potential path traversal attacks
+logsource:
+  product: webserver
+detection:
+  selection:
+    c-uri|contains: ../
+    c-uri|contains: ..\
+  condition: selection
+fields:
+- c-ip
+- c-uri
+falsepositives:
+- Legitimate use of ../ or ..\ in URLs
+level: medium
+```

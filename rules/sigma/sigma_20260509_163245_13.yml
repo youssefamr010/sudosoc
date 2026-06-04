@@ -1,0 +1,24 @@
+```yml
+title: ATTACK Detection
+status: test
+description: Detects ATTACK activity
+author: System
+date: 2024-03-16
+modified: 2024-03-16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    Proto: UDP
+    Source: 150.171.22.12:443
+    Dest: 192.168.100.5:58342
+  condition: selection
+fields:
+- Proto
+- Source
+- Dest
+falsepositives:
+- Unknown
+level: high
+```

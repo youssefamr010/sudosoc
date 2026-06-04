@@ -1,0 +1,22 @@
+```yml
+title: PROBE Detection
+status: test
+description: Detects PROBE activity
+author: System
+date: 2024-01-01
+modified: 2024-01-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 127.0.0.1
+    src_port: 50843
+    dest_ip: 127.0.0.1
+    dest_port: 50812
+    proto: tcp
+  condition: selection
+falsepositives:
+  - Unknown
+level: medium
+```

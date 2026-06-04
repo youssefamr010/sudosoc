@@ -1,0 +1,25 @@
+```yml
+title: NORMAL Detection
+status: test
+description: Detects NORMAL attack
+logsource:
+  product: network
+  service: udp
+detection:
+  selection:
+    src_ip: 20.201.215.0
+    src_port: 3544
+    dest_ip: 192.168.100.5
+    dest_port: 59867
+    proto: UDP
+  condition: selection
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+falsepositives:
+  - Unknown
+level: informational
+```

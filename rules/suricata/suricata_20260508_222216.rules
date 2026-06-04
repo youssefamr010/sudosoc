@@ -1,0 +1,1 @@
+alert udp any any -> any 51346 (msg:"PROBE Detection"; metadata:rule-category="PROBE"; metadata:rule-subcategory="ML:PROBE@0.90[m=0.829][ADAPTIVE]"; sid:1000000; rev:1;)

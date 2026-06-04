@@ -1,0 +1,1 @@
+alert tcp any any -> any 3333 (msg:"SUSPICIOUS_PORT:3333 - Suspicious Port 3333 - Mining pool"; sid:1000000; rev:1;)

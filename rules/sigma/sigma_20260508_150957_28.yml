@@ -1,0 +1,23 @@
+```yml
+title: XSS Attempt
+status: test
+description: Detects potential XSS attempts
+references:
+  - https://example.com/xss-info
+logsource:
+  product: web_server
+  service: http
+detection:
+  payload_sig:
+    PAYLOAD_SIG: b'<script'
+  condition: payload_sig
+fields:
+  - src_ip
+  - src_port
+  - dest_ip
+  - dest_port
+  - proto
+falsepositives:
+  - Legitimate JavaScript usage
+level: medium
+```

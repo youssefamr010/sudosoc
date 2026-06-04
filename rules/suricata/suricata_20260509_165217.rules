@@ -1,0 +1,1 @@
+alert udp any any -> any 57809 (msg:"ATTACK"; metadata:rule-category="ML:ATTACK@1.00[m=0.996][ADAPTIVE]"; sid:1000000; rev:1;)

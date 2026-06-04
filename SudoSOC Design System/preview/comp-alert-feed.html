@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html,body{margin:0;background:var(--void);}
+  .wrap{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+  .feed{display:flex;flex-direction:column;gap:6px;}
+  .alert{display:grid;grid-template-columns:auto auto 1fr auto;gap:12px;align-items:center;
+         background:var(--panel);border:var(--bd);border-left:3px solid var(--line);border-radius:var(--r-sm);
+         padding:10px 14px;transition:background var(--t-fast);}
+  .alert:hover{background:var(--panel-2);}
+  .alert.crit{border-left-color:var(--critical);}
+  .alert.high{border-left-color:var(--high);}
+  .alert.info{border-left-color:var(--info);}
+  .ts{font-family:var(--font-mono);font-size:12px;color:var(--fg-3);}
+  .sev{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;}
+  .sev.crit{color:#FF6B6F;}.sev.high{color:#FFA266;}.sev.info{color:#7FAcF8;}
+  .body{font-family:var(--font-mono);font-size:12.5px;color:var(--fg-2);}
+  .body b{color:var(--fg);}
+  .act{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;padding:3px 8px;border-radius:var(--r-xs);}
+  .blocked{background:var(--red-900);color:var(--red-hi);}
+  .new{animation:slidein .5s var(--ease-out);}
+  @keyframes slidein{from{opacity:0;transform:translateY(-10px);background:var(--red-wash);}to{opacity:1;transform:none;}}
+  @keyframes flash{0%{background:rgba(219,34,35,.25);}100%{background:var(--panel);}}
+</style></head>
+<body class="sds"><div class="wrap">
+  <div class="kicker kicker--red">Live Alert Feed — streams in from the top</div>
+  <div class="feed" id="feed"></div>
+</div>
+<script>
+  const tmpl = [
+    {sev:'crit', cls:'SYN Flood', src:'185.220.101.4:443', dst:'10.0.0.12:80', conf:'0.97', act:'BLOCKED'},
+    {sev:'high', cls:'Port Scan', src:'45.83.193.7:51220', dst:'10.0.0.5:*', conf:'0.88', act:'ISOLATE'},
+    {sev:'info', cls:'Brute Force', src:'91.240.118.9:22', dst:'10.0.0.8:22', conf:'0.71', act:'RATE_LIM'},
+  ];
+  let t = 8, i = 0;
+  function row(d, isNew){
+    const hh='14', mm=String(22 - (t%18)).padStart(2,'0'), ss=String((t*7)%60).padStart(2,'0');
+    const el=document.createElement('div');
+    el.className='alert '+d.sev+(isNew?' new':'');
+    el.innerHTML=`<span class="ts">${hh}:${mm}:${ss}</span>
+      <span class="sev ${d.sev}">${d.sev}</span>
+      <span class="body"><b>${d.cls}</b> · ${d.src} → ${d.dst} · conf <b>${d.conf}</b></span>
+      <span class="act ${d.act==='BLOCKED'?'blocked':''}">${d.act}</span>`;
+    return el;
+  }
+  const feed=document.getElementById('feed');
+  tmpl.forEach(d=>feed.appendChild(row(d,false)));
+  setInterval(()=>{ t++; i=(i+1)%tmpl.length;
+    const el=row(tmpl[i],true); feed.insertBefore(el,feed.firstChild);
+    if(feed.children.length>3) feed.removeChild(feed.lastChild);
+  },2600);
+  lucide.createIcons();
+</script></body></html>

@@ -1,0 +1,1 @@
+alert tcp any any -> any 61721 (msg:"ML EXPLOIT 0.98"; sid:1000000; rev:1; metadata:rule-type,exploit; classtype:attempted-admin;)

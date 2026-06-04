@@ -1,0 +1,22 @@
+```yml
+title: Suspicious UDP Traffic
+status: test
+description: Detects suspicious UDP traffic
+author: Your Name
+date: 2024/09/16
+modified: 2024/09/16
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    src_ip: 192.168.100.5
+    src_port: 59867
+    dest_ip: 45.109.8.136
+    dest_port: 5438
+    proto: UDP
+  condition: selection
+falsepositives:
+  - Unknown
+level: low
+```

@@ -1,0 +1,1 @@
+alert tcp any any -> any 3389 (msg:"PROCESSTABLE Detection"; metadata:rule=ML:PROCESSTABLE@0.96[m=0.941][ADAPTIVE]; sid:1000000; rev:1; classtype:attempted-admin;)

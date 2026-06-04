@@ -1,0 +1,20 @@
+```yml
+title: Port Scan Detection
+id: PORT_SCAN
+status: test
+description: Detects port scans from a single source IP
+author: Your Name
+date: 2023-12-01
+modified: 2023-12-01
+logsource:
+  product: linux
+  service: netfilter
+detection:
+  selection:
+    src_ip: 192.168.56.200
+    dest_port: 9090
+  condition: selection | count(dest_port) by src_ip > 15 and span(4.4s)
+falsepositives:
+  - Unknown
+level: medium
+```
