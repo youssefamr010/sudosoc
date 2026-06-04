@@ -171,17 +171,5 @@ SudoSOC maps threats to the MITRE ATT&CK framework:
 *   **MITM / Sniffing:** T1040 (Network Sniffing)
 *   **Decryption Bypass:** T1111 (Multi-Factor Authentication Bypass) / T1557 (Adversary-in-the-Middle)
 
----
 
-## 👥 Contributors & Collaborators
-
-The SudoSOC platform is developed and maintained by:
-
-*   **Youssef Amr Mohamed** ([@youssefamr010](https://github.com/youssefamr010)) — *Lead Architecture & Backend Development*
-*   **[Collaborator 1 Name]** ([@github_username]()) — *Core Contributor*
-*   **[Collaborator 2 Name]** ([@github_username]()) — *Core Contributor*
-*   **[Collaborator 3 Name]** ([@github_username]()) — *Core Contributor*
-
-> **Note on Contributors visibility on GitHub:**  
-> GitHub generates the **Contributors graph** on the repository homepage dynamically based on *commits pushed to the default (`main`) branch*. If you have added your friends as **Collaborators** under `Settings -> Collaborators`, they will not show up in GitHub's automatic contributors panel until they commit and push their first code change to the repository. Please have them pull the repository, make a minor update (e.g. adding their name to the list above), and push it to see their profiles show up instantly!
 
