@@ -6,6 +6,20 @@ Designed with a premium high-contrast **red and black cyber-defense interface**,
 
 ---
 
+## 📖 Detailed Project Overview (About)
+
+SudoSOC (Sudo Security Operations Center) is designed as a modular, 3-layer hybrid cyber-defense ecosystem. It bridges the gap between raw, micro-second network packet streams and high-level, human-readable security intelligence.
+
+### The 3-Layer Defense Pipeline:
+1. **Signature & Heuristic Monitoring (Layer 1):** Scans inbound/outbound packets at wire-speed for anomalies in volumes, connection counts, and prohibited port ranges.
+2. **Machine Learning Classifier (Layer 2):** Uses a stacking ensemble classifier combining **Random Forest** and **XGBoost** base learners with a **Logistic Regression** meta-learner to classify behavior patterns (e.g. DDoS floods, SQL injections, scan probes) with 95%+ detection accuracy, ignoring IP-overfitting properties.
+3. **Generative AI Observability (Layer 3):** Automatically integrates with the Groq API (running Llama-3 model structures) to ingest alert payloads and generate natural language threat profiles, impact assessments, and actionable mitigation paths in real-time.
+
+### Decryption Snipping Architecture:
+Unlike traditional network monitors that lose visibility into HTTPS streams, SudoSOC hosts an integrated **Secure Sniffer (Mitmproxy)**. By hooking browser TLS sessions via `SSLKEYLOGFILE`, SudoSOC captures the master symmetric keys, feeds them to the sniffing daemon on port `9090`, and displays plaintext HTTP/HTTPS requests and headers side-by-side with security metrics.
+
+---
+
 ## 📸 Platform Previews
 
 ### 1. System Architecture
@@ -156,3 +170,18 @@ SudoSOC maps threats to the MITRE ATT&CK framework:
 *   **DDoS Attack:** T1498 (Network Denial of Service)
 *   **MITM / Sniffing:** T1040 (Network Sniffing)
 *   **Decryption Bypass:** T1111 (Multi-Factor Authentication Bypass) / T1557 (Adversary-in-the-Middle)
+
+---
+
+## 👥 Contributors & Collaborators
+
+The SudoSOC platform is developed and maintained by:
+
+*   **Youssef Amr Mohamed** ([@youssefamr010](https://github.com/youssefamr010)) — *Lead Architecture & Backend Development*
+*   **[Collaborator 1 Name]** ([@github_username]()) — *Core Contributor*
+*   **[Collaborator 2 Name]** ([@github_username]()) — *Core Contributor*
+*   **[Collaborator 3 Name]** ([@github_username]()) — *Core Contributor*
+
+> **Note on Contributors visibility on GitHub:**  
+> GitHub generates the **Contributors graph** on the repository homepage dynamically based on *commits pushed to the default (`main`) branch*. If you have added your friends as **Collaborators** under `Settings -> Collaborators`, they will not show up in GitHub's automatic contributors panel until they commit and push their first code change to the repository. Please have them pull the repository, make a minor update (e.g. adding their name to the list above), and push it to see their profiles show up instantly!
+
